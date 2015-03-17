@@ -1,0 +1,5 @@
+# On board Ultra-low power RTC #
+
+VirtualSense uses the NPX PCF2123 RTC to implement an “hibernation” mode that exploits LPM4.5 while granting to the programmer the capability of scheduling period wakeup call in spite of the complete shut down of the internal clock. For self-wakeup purposes, the timer interrupt of the RTC needs to be programmed before entering in LPM4. The use of an external RTC does make sense tanks to the extremely low power consumption of the PCF2123, which can generate timed interrupts even from a low-power mode where it consumes only 100nA.
+Notice that without an external RTC the MCU could schedule self wakeup events only from LPM3, which consumes approximately 1.4µA.
+The only drawback of hibernation is the lack of data retention, which imposes, at wakeup, to reboot the MCU, to restart the VM, and to restore the software execution state from the on-board EEPROM. Needless to say, is the execution state needs to be resumed, it has to be explicitly stored in the EEPROM before entering hibernation.
