@@ -27,6 +27,7 @@
  */
 import javax.virtualsense.powermanagement.PowerManager;
 import javax.virtualsense.actuators.Leds;
+import javax.virtualsense.VirtualSense;
 import java.lang.Runtime;
 
 public class BlinkMultiUser
@@ -52,7 +53,9 @@ public class BlinkMultiUser
              }
              state=!state;
              System.out.print("Free mem: ");
-             System.out.println(Runtime.freeMemory());             
+             System.out.println(Runtime.freeMemory());     
+             VirtualSense.printTime();
+             System.out.println("");
          }
        
     }

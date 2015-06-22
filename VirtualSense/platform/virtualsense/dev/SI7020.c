@@ -33,7 +33,7 @@
 #include "SI7020.h"
 
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -98,6 +98,7 @@ uint16_t read_temp_SI7020(void){
 	// Write command for start temperature conversion
 	I2CMasterDataPut(SI7020_READ_TEMP_NOHOLD);
 	I2CMasterControl(I2C_MASTER_CMD_SINGLE_SEND);
+	clock_delay(50000);
 	while(I2CMasterBusy());
 	if(I2CMasterErr() != I2C_MASTER_ERR_NONE){
 		PRINTF("SI7020: error on write command (temp read)\n");

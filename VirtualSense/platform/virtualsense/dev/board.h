@@ -79,17 +79,18 @@
 #undef LEDS_RED
 #undef LEDS_CONF_ALL
 
-#define LEDS_YELLOW    2 /**< LED2 (Yellow) -> PC1 */
-#define LEDS_GREEN     4 /**< LED3 (Green)  -> PC2 */
-#define LEDS_ORANGE    8 /**< LED4 (Orange) -> PC3 */
+#define LEDS_YELLOW    32   /**< LED2 (Yellow) -> PC5 */
+#define LEDS_GREEN     64   /**< LED3 (Green)  -> PC6 */
+#define LEDS_ORANGE    128  /**< LED4 (Orange) -> PC7 */
 
 #if USB_SERIAL_CONF_ENABLE
-#define LEDS_CONF_ALL 14
+#define LEDS_CONF_ALL 224
 #define LEDS_RED LEDS_ORANGE
 #else
-#define LEDS_CONF_ALL 15
+#define LEDS_CONF_ALL 224
 #define LEDS_RED       1 /**< LED1 (Red)    -> PC0 */
 #endif
+
 
 /* Notify various examples that we have LEDs */
 #define PLATFORM_HAS_LEDS        1
@@ -186,19 +187,19 @@
  * These values configure which CC2538 pins to use for the SPI lines.
  * @{
  */
-#define SSI0_SPI_PORT			GPIO_B_BASE
+#define SSI0_SPI_PORT	        GPIO_B_BASE
 #define SSI0_SPI_CLK_PIN     	GPIO_PIN_3
-#define SSI0_SPI_MOSI_PIN       GPIO_PIN_2
-#define SSI0_SPI_MISO_PIN       GPIO_PIN_1
+#define SSI0_SPI_MOSI_PIN       GPIO_PIN_4
+#define SSI0_SPI_MISO_PIN       GPIO_PIN_5
 
-#define SSI0_SPI_CE0_PORT		GPIO_B_BASE
-#define SSI0_SPI_CE0_PIN   		GPIO_PIN_0
+#define SSI0_SPI_CE0_PORT	GPIO_B_BASE
+#define SSI0_SPI_CE0_PIN   	GPIO_PIN_0
 #define SSI0_SPI_CE1_PORT   	GPIO_B_BASE
-#define SSI0_SPI_CE1_PIN      	GPIO_PIN_6
+#define SSI0_SPI_CE1_PIN      	GPIO_PIN_1
 #define SSI0_SPI_CE2_PORT   	GPIO_B_BASE
-#define SSI0_SPI_CE2_PIN      	GPIO_PIN_7
-#define RTC_SPI_CE_PORT   	 	GPIO_B_BASE
-#define RTC_SPI_CE_PIN        	GPIO_PIN_5
+#define SSI0_SPI_CE2_PIN      	GPIO_PIN_2
+#define RTC_SPI_CE_PORT   	GPIO_B_BASE
+#define RTC_SPI_CE_PIN        	GPIO_PIN_6
 
 #define CE0 	0
 #define CE1 	1
@@ -214,9 +215,9 @@
  * @{
  */
 #define I2C_SCL_PORT             GPIO_D_BASE
-#define I2C_SCL_PIN              GPIO_PIN_2
+#define I2C_SCL_PIN              GPIO_PIN_4
 #define I2C_SDA_PORT             GPIO_D_BASE
-#define I2C_SDA_PIN              GPIO_PIN_3
+#define I2C_SDA_PIN              GPIO_PIN_5
 /** @} */
 /*---------------------------------------------------------------------------*/
 
@@ -229,16 +230,14 @@
 #define INT0			    0
 #define INT1			    1
 #define INT2			    2
-#define INT3		    	3
-#define INT_RTC				4
+#define INT_RTC			    3
 
-#define INT_PORT			GPIO_C_BASE
-#define INT_GPIO            INT_GPIOC
-#define INT0_PIN		    GPIO_PIN_3
-#define INT1_PIN		    GPIO_PIN_4
-#define INT2_PIN		    GPIO_PIN_5
-#define INT3_PIN		    GPIO_PIN_6
-#define RTC_INT_PIN			GPIO_PIN_7
+#define INT_PORT		    GPIO_D_BASE
+#define INT_GPIO                    INT_GPIOD
+#define INT0_PIN		    GPIO_PIN_0
+#define INT1_PIN		    GPIO_PIN_1
+#define INT2_PIN		    GPIO_PIN_2
+#define RTC_INT_PIN		    GPIO_PIN_3
 /** @} */
 /*---------------------------------------------------------------------------*/
 
@@ -270,24 +269,19 @@
 #define ADC0			    0
 #define ADC1			    1
 #define ADC2			    2
-#define ADC3		    	3
-#define ADCVDD		    	4
-#define ADCTEMP		    	5
+#define ADCVDD		    	    3
+#define ADCTEMP		    	    4
 
-#define ADC_PORT			GPIO_A_BASE
-#define ADC0_PIN		    GPIO_PIN_4
-#define ADC1_PIN		    GPIO_PIN_5
-#define ADC2_PIN		    GPIO_PIN_6
-#define ADC3_PIN		    GPIO_PIN_7
-#define ADCLIGHT_PIN	    GPIO_PIN_3
+#define ADC_PORT		    GPIO_A_BASE
+#define ADC0_PIN		    GPIO_PIN_3
+#define ADC1_PIN		    GPIO_PIN_6
+#define ADC2_PIN		    GPIO_PIN_7
 
-#define ADC0_CH			    SOCADC_AIN4
-#define ADC1_CH			    SOCADC_AIN5
-#define ADC2_CH			    SOCADC_AIN6
-#define ADC3_CH		    	SOCADC_AIN7
+#define ADC0_CH			    SOCADC_AIN3
+#define ADC1_CH			    SOCADC_AIN6
+#define ADC2_CH			    SOCADC_AIN7
 #define ADCVDD_CH		    SOCADC_VDD
 #define ADCTEMP_CH		    SOCADC_TEMP_SENS
-#define ADCLIGHT_CH			SOCADC_AIN3
 
 #define ADC_INTREF		    0
 #define ADC_VDDREF		    1

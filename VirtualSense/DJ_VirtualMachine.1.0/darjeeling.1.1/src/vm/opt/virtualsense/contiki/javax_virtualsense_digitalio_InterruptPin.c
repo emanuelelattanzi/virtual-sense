@@ -59,9 +59,9 @@ void javax_virtualsense_digitalio_InterruptPin_void__createInterruptPin_boolean_
 		case INT2:
 			int_pin = INT2_PIN;
 			break;
-		case INT3:
+		/*case INT3:
 			int_pin = INT3_PIN;
-			break;
+			break;*/
 		default:
 			break;
 	}

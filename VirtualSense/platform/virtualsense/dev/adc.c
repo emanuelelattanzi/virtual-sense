@@ -53,8 +53,8 @@ void adc_init(void){
 	IOCPadConfigSet(ADC_PORT, ADC1_PIN, IOC_OVERRIDE_ANA);
 	GPIODirModeSet(ADC_PORT, ADC2_PIN, GPIO_DIR_MODE_HW);
 	IOCPadConfigSet(ADC_PORT, ADC2_PIN, IOC_OVERRIDE_ANA);
-	GPIODirModeSet(ADC_PORT, ADC3_PIN, GPIO_DIR_MODE_HW);
-	IOCPadConfigSet(ADC_PORT, ADC3_PIN, IOC_OVERRIDE_ANA);
+	//GPIODirModeSet(ADC_PORT, ADC3_PIN, GPIO_DIR_MODE_HW);
+	//IOCPadConfigSet(ADC_PORT, ADC3_PIN, IOC_OVERRIDE_ANA);
 }
 /*---------------------------------------------------------------------------*/
 

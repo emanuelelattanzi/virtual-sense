@@ -60,15 +60,15 @@ void javax_virtualsense_sensors_Temperature_short_getBoardValue()
 	//
 	// Enable RF Core (needed to enable temp sensor)
 	//
-	SysCtrlPeripheralEnable(SYS_CTRL_PERIPH_RFC);
+	//SysCtrlPeripheralEnable(SYS_CTRL_PERIPH_RFC);
 	//
 	// Connect temp sensor to ADC
 	//
-	HWREG(CCTEST_TR0) |= CCTEST_TR0_ADCTM;
+	//HWREG(CCTEST_TR0) |= CCTEST_TR0_ADCTM;
 	//
 	// Enable the temperature sensor
 	//
-	HWREG(RFCORE_XREG_ATEST) = 0x01;
+	//HWREG(RFCORE_XREG_ATEST) = 0x01;
 
 	uint16_t read = adc_read(SOCADC_TEMP_SENS, ADC_INTREF);
 

@@ -33,6 +33,7 @@
 
 #define SI7020_READ_TEMP_NOHOLD		0xF3
 #define SI7020_READ_HUMID_NOHOLD	0xF5
+#define SI7020_RESET			0xFE
 
 void init_SI7020(void);
 uint16_t read_temp_SI7020(void);

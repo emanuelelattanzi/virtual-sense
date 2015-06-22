@@ -45,35 +45,25 @@ public class SenseMultiUser
         	System.out.println("mV");
         	Thread.sleep(1000);
         	
-        	System.out.print("ADC3: ");
-        	System.out.print(ADC.readIntRef(ADC.CH3));
-        	System.out.println("mV");
+        	/*System.out.print("Ext. humidity: ");
+        	System.out.print(Humidity.getValue());
+        	System.out.println(" %");
         	Thread.sleep(1000);
-        	
+        	        	
         	System.out.print("Ext. temp: ");
         	System.out.print(Temperature.getValue());
-        	System.out.println("mC");
-        	Thread.sleep(1000);
-        	
-        	System.out.print("Ext. humidity: ");
-        	System.out.print(Humidity.getValue());
-        	System.out.println("per cent");
-        	Thread.sleep(1000);
-        	
+        	System.out.println(" mC");
+        	Thread.sleep(1000);*/
+        	        	
         	System.out.print("Board temp: ");
         	System.out.print(Temperature.getBoardValue());
         	System.out.println("mC");
         	Thread.sleep(1000);
         	
-        	System.out.print("Light intensity: ");
-        	System.out.print(Light.getValue());
-        	System.out.println("lx");
-        	Thread.sleep(1000);
-        	
-        	System.out.print("Current Vdd: ");
+        	/*System.out.print("Current Vdd: ");
         	System.out.print(ADC.readIntRef(ADC.CHVDD));
         	System.out.println("mV");
-        	Thread.sleep(1000);
+        	Thread.sleep(1000);*/
         }
     }
 }

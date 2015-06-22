@@ -126,10 +126,10 @@ GPIOIntHandler(void)
 	}else if(ui32GPIOIntStatus & INT2_PIN){
 		flag = INT2;
 		process_poll(&digitalio_driver_process);
-	}else if(ui32GPIOIntStatus & INT3_PIN){
+	}/*else if(ui32GPIOIntStatus & INT3_PIN){
 		flag = INT3;
 		process_poll(&digitalio_driver_process);
-	}else if(ui32GPIOIntStatus & RTC_INT_PIN){
+	}*/else if(ui32GPIOIntStatus & RTC_INT_PIN){
 		flag = INT_RTC;
 #ifdef PLATFORM_HAS_RTC_PCF2123
 		printf("RTC interr\n");

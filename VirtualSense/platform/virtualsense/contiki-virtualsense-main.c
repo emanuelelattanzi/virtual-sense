@@ -194,7 +194,7 @@ main(void)
 
   udma_init();
 
-  init_BH1620FVC();
+  //init_BH1620FVC(); NO ligth sensor in this release
 
   init_SI7020();
   init_24AA512();

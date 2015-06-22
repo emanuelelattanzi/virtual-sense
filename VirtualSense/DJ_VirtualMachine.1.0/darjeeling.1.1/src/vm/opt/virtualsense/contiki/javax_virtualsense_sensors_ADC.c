@@ -72,9 +72,9 @@ void javax_virtualsense_sensors_ADC_short__read_short_short_short()
 		case ADC2:
 			read = (uint16_t)((uint32_t)(adc_read(ADC2_CH, SOCADC_ref) * volt_ref) / 2047);
 			break;
-		case ADC3:
+		/*case ADC3:
 			read = (uint16_t)((uint32_t)(adc_read(ADC3_CH, SOCADC_ref) * volt_ref) / 2047);
-			break;
+			break;*/
 		case ADCVDD:
 			read = ((uint16_t)((uint32_t)(adc_read(ADCVDD_CH, SOCADC_ref) * volt_ref) / 2047)) * 3;		// *3 because ADCVDD channel returns Vdd/3
 			break;

@@ -34,7 +34,7 @@ public class ADC
 	public static final short CH0 		= 0;
 	public static final short CH1 		= 1;
 	public static final short CH2 		= 2;
-	public static final short CH3 		= 3;
+	
 	public static final short CHVDD 	= 4;
 	
 	public static final short INTREF 	= 0;
