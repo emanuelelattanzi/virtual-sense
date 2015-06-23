@@ -174,11 +174,11 @@ PROCESS_THREAD(darjeeling_process, ev, data)
 			}
 
 		}
-		deltaSleep = (nextScheduleTime - dj_timer_getTimeMillis())/10;
+		deltaSleep = (nextScheduleTime - dj_timer_getTimeMillis());
 		if(deltaSleep <= 0) deltaSleep = 1;
 		DEBUG_LOG("delta time = %ld\n", deltaSleep);
 		// can't get PROCESS_YIELD to work, quick hack to wait 1 clock tick
-	    etimer_set(&et, (clock_time_t)deltaSleep);
+	    etimer_set(&et, (clock_time_t)((deltaSleep*CLOCK_SECOND)/1000));
 	    PROCESS_YIELD_UNTIL((etimer_expired(&et) || ev == PROCESS_EVENT_POLL));
 	}
 
