@@ -144,14 +144,17 @@ uint8_t i2c_write(uint8_t address, uint8_t * values, uint16_t len){
 	I2CMasterSlaveAddrSet(address, false);
 
 	uint16_t i = 0;
-	for(i = 0; i < len; i++){
+	for(i = 0; i < len; i++) {
 
-		if(i == 0)
-			cmd = I2C_MASTER_CMD_BURST_SEND_START;
-		else if(i > 0 && i < len -1)
-			cmd = I2C_MASTER_CMD_BURST_SEND_CONT;
-		else if(i == len -1)
-			cmd = I2C_MASTER_CMD_BURST_SEND_FINISH;
+		if(len == 1)
+			cmd = I2C_MASTER_CMD_SINGLE_SEND;
+		else
+			if(i == 0)
+				cmd = I2C_MASTER_CMD_BURST_SEND_START;
+			else if(i > 0 && i < len -1)
+				cmd = I2C_MASTER_CMD_BURST_SEND_CONT;
+			else if(i == len -1)
+				cmd = I2C_MASTER_CMD_BURST_SEND_FINISH;
 
 		// Write i byte on I2C bus
 		I2CMasterDataPut(values[i]);
@@ -180,12 +183,15 @@ uint16_t i2c_read(uint8_t address, uint8_t * values, uint16_t len){
 	uint16_t i = 0;
 	for(i = 0; i < len; i++){
 
-		if(i == 0)
-			cmd = I2C_MASTER_CMD_BURST_RECEIVE_START;
-		else if(i > 0 && i < len -1)
-			cmd = I2C_MASTER_CMD_BURST_RECEIVE_CONT;
-		else if(i == len -1)
-			cmd = I2C_MASTER_CMD_BURST_RECEIVE_FINISH;
+		if(len == 1)
+			cmd = I2C_MASTER_CMD_SINGLE_RECEIVE;
+		else
+			if(i == 0)
+				cmd = I2C_MASTER_CMD_BURST_RECEIVE_START;
+			else if(i > 0 && i < len -1)
+				cmd = I2C_MASTER_CMD_BURST_RECEIVE_CONT;
+			else if(i == len -1)
+				cmd = I2C_MASTER_CMD_BURST_RECEIVE_FINISH;
 
 		// Read i byte from I2C bus
 		I2CMasterControl(cmd);
@@ -199,3 +205,95 @@ uint16_t i2c_read(uint8_t address, uint8_t * values, uint16_t len){
 
 	return readBytes;
 }
+
+
+
+/*
+ * Return true if communication is done.
+ */
+uint8_t i2c_write_burst(uint8_t dev_adr, uint8_t reg_adr, uint8_t * values, uint16_t len){
+	uint8_t ret = 0x01;
+	uint32_t cmd = 0;
+
+	//printf("i2cwrite address: %x\n", address);
+
+	// Set I2Cmodule in write mode to specified address
+	I2CMasterSlaveAddrSet(dev_adr, false);
+
+	// Write register address on I2C bus
+	I2CMasterDataPut(reg_adr);
+	I2CMasterControl(I2C_MASTER_CMD_BURST_SEND_START);
+	while(I2CMasterBusy());
+	if(I2CMasterErr() != I2C_MASTER_ERR_NONE){
+		ret &= 0x00;
+	}
+
+	uint16_t i = 0;
+	for(i = 0; i < len; i++) {
+
+		if(i == len-1)
+			cmd = I2C_MASTER_CMD_BURST_SEND_FINISH;
+		else
+			cmd = I2C_MASTER_CMD_BURST_SEND_CONT;
+
+		// Write i byte on I2C bus
+		I2CMasterDataPut(values[i]);
+		//printf("w values[%d] = %x\n", i, values[i]);
+		I2CMasterControl(cmd);
+		while(I2CMasterBusy());
+		if(I2CMasterErr() != I2C_MASTER_ERR_NONE){
+			ret &= 0x00;
+		}
+	}
+
+	return ret;
+}
+
+
+
+uint16_t i2c_read_burst(uint8_t dev_adr, uint8_t reg_adr, uint8_t * values, uint16_t len){
+	uint16_t readBytes = 0;
+	uint32_t cmd = 0;
+
+	//printf("i2cread address: %x\n", address);
+
+	// Set I2Cmodule in write mode to specified address
+	I2CMasterSlaveAddrSet(dev_adr, false);
+
+	// Write register address on I2C bus
+	I2CMasterDataPut(reg_adr);
+	I2CMasterControl(I2C_MASTER_CMD_BURST_SEND_START);
+	while(I2CMasterBusy());
+	if(I2CMasterErr() != I2C_MASTER_ERR_NONE){
+		readBytes = 0x00;
+	}
+
+	// Set I2Cmodule in read mode to specified address
+	I2CMasterSlaveAddrSet(dev_adr, true);
+
+	uint16_t i = 0;
+	for(i = 0; i < len; i++){
+
+		if(len == 1)
+			cmd = I2C_MASTER_CMD_SINGLE_RECEIVE;
+		else
+			if(i == 0)
+				cmd = I2C_MASTER_CMD_BURST_RECEIVE_START;
+			else if(i > 0 && i < len -1)
+				cmd = I2C_MASTER_CMD_BURST_RECEIVE_CONT;
+			else if(i == len -1)
+				cmd = I2C_MASTER_CMD_BURST_RECEIVE_FINISH;
+
+		// Read i byte from I2C bus
+		I2CMasterControl(cmd);
+		while(I2CMasterBusy());
+		if(I2CMasterErr() == I2C_MASTER_ERR_NONE){
+			values[i] = I2CMasterDataGet();
+			readBytes++;
+			//printf("r values[%d] = %x\n", i, values[i]);
+		}
+	}
+
+	return readBytes;
+}
+

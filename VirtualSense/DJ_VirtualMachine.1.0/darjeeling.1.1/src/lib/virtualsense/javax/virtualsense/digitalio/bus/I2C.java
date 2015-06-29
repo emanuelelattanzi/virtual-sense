@@ -61,6 +61,22 @@ public class I2C
 	public static byte[] read(byte address, short byteToRead){
 		return _read(address, byteToRead);
 	}
+
+	
+	
+	public static boolean writeBurst(byte deviceAdr, byte regAdr, byte values[]){
+		return _writeBurst(deviceAdr, regAdr, values);
+	}
+
+	public static byte[] readBurst(byte deviceAdr, byte regAdr, short byteToRead){
+		return _readBurst(deviceAdr, regAdr, byteToRead);
+	}
+
+	private static native byte[] _readBurst(byte deviceAdr, byte regAdr, short byteToRead);
+	private static native boolean _writeBurst(byte deviceAdr, byte regAdr, byte values[]);
+
+	
+	
 	
 	
 	private static native void _enable();

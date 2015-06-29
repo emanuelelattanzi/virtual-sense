@@ -49,6 +49,8 @@ void     i2c_disable(void);
 
 uint8_t i2c_write(uint8_t, uint8_t *, uint16_t);
 uint16_t i2c_read(uint8_t, uint8_t *, uint16_t);
+uint8_t i2c_write_burst(uint8_t, uint8_t, uint8_t *, uint16_t);
+uint16_t i2c_read_burst(uint8_t, uint8_t, uint8_t *, uint16_t);
 
 
 #endif /* I2C_H */
