@@ -22,19 +22,34 @@ import javax.virtualsense.actuators.Leds;
 
 import javax.virtualsense.sensors.*;
 import javax.virtualsense.sensors.evm.accelerometer.*;
+import javax.virtualsense.actuators.evm.display.*;
 import javax.virtualsense.VirtualSense;
 import javax.darjeeling.Darjeeling;
+import java.lang.String;
 
 public class SenseMultiUser
 {
     public static void motemain()
     {
     	Accelerometer acc = new Accelerometer();
-    	
+    	Display dis = Display.getInstance();
+
         while(true)
         {
         	AccVector accVector = acc.getValue();
         	if(accVector != null) {
+        		
+        		String accS[] = new String[6];
+        		accS[0] = "X:";
+        		accS[1] = Integer.toString(accVector.x);
+        		accS[2] = "Y:";
+        		accS[3] = Integer.toString(accVector.y);
+        		accS[4] = "Z:";
+        		accS[5] = Integer.toString(accVector.z);
+        		
+        		dis.clear();
+        		dis.print(String.join("", accS));
+        		
         		System.out.println("Acceleration vector:");
         		System.out.print("  x: ");System.out.print(accVector.x);
         		System.out.print("  y: ");System.out.print(accVector.y);

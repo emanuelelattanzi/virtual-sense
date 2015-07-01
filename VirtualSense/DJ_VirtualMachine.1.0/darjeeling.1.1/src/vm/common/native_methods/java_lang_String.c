@@ -21,6 +21,7 @@
 
 #include <string.h>
 
+
 #include "common/array.h"
 #include "common/heap/heap.h"
 #include "common/execution/execution.h"
@@ -199,5 +200,34 @@ void java_lang_String_java_lang_String___split_char(){
 	dj_exec_stackPushRef(VOIDP_TO_REF(ref));
 
 }
+
+// byte[] java.lang.String.getBytes(java.lang.String)
+void java_lang_String_byte___getBytes(){
+	char *str = REF_TO_VOIDP(dj_exec_stackPopRef());
+	int len = strlen(str);
+	dj_int_array * ret = dj_int_array_create(T_BYTE, len);
+
+	int i = 0;
+	for(i = 0; i < len; i++)
+		ret->data.bytes[i] = (int8_t)str[i];
+
+	dj_exec_stackPushRef(VOIDP_TO_REF(ret));
+}
+
+
+// char java_lang_String_char_charAt_int
+void java_lang_String_char_charAt_int() {
+	char *str = REF_TO_VOIDP(dj_exec_stackPopRef());
+	int index = dj_exec_stackPopInt();
+	int len = strlen(str);
+
+	if(index > len - 1) {
+		dj_exec_createAndThrow(BASE_CDEF_java_lang_IndexOutOfBoundsException);
+		return;
+	}
+
+	dj_exec_stackPushShort((uint16_t)str[index]);
+}
+
 
 

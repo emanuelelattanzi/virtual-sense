@@ -30,6 +30,7 @@ public class String
 	public native boolean equals(String str); 
 	public native String[] split(char c); 
 	
-	/*public native byte[] getBytes();*/
+	public native char charAt(int index);
 	
+	public native byte[] getBytes();
 }
