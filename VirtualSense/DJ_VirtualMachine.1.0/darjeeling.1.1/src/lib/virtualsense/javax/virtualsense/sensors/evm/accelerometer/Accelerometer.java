@@ -102,19 +102,22 @@ public class Accelerometer
 		
 		if(buffer.length == FXLS8471Q_READ_LEN) {
 			// copy the 14 bit accelerometer byte data into 16 bit words
-			vec.x = ((buffer[1] << 8) | buffer[2])>> 2;
-			vec.y = ((buffer[3] << 8) | buffer[4])>> 2;
-			vec.z = ((buffer[5] << 8) | buffer[6])>> 2;
 			
 			
-			/*System.out.print("buffer[0]: ");System.out.println(buffer[0]);
-			System.out.print("buffer[1]: ");System.out.println(buffer[1]);
-			System.out.print("buffer[2]: ");System.out.println(buffer[2]);
-			System.out.print("buffer[3]: ");System.out.println(buffer[3]);
-			System.out.print("buffer[4]: ");System.out.println(buffer[4]);
-			System.out.print("buffer[5]: ");System.out.println(buffer[5]);
-			System.out.print("buffer[6]: ");System.out.println(buffer[6]);*/
-
+			
+			int tmp = buffer[1] << 24;
+			tmp = tmp | (0x00FF0000 & (buffer[2] << 16));
+			vec.x = (short)(tmp >> 18);
+		
+			
+			tmp = buffer[3] << 24;
+			tmp = tmp | (0x00FF0000 & (buffer[4] << 16));
+			vec.y = (short)(tmp >> 18);
+			
+			
+			tmp = buffer[5] << 24;			
+			tmp = tmp | (0x00FF0000 & (buffer[6] << 16));			
+			vec.z = (short)(tmp >> 18);
 			
 		}
 		else
@@ -122,5 +125,72 @@ public class Accelerometer
 		
 		return vec;
 	}
+	
+	/*public void printByte(byte b){
+		int mask = 0b10000000;
+		for(int i = 0; i < 8; i++){
+			if((b & mask)==mask)
+				System.out.print("1");
+			else
+				System.out.print("0");
+			mask = (byte)(mask >>(byte)1);
+				
+		}
+		System.out.println("");
+	}*/
+	
+	/*public void printShort(short b){
+		int mask = 0b1000000000000000;
+		System.out.println("");
+		for(int i = 0; i < 16; i++){
+			if((b & mask)==mask)
+				System.out.print("1");
+			else
+				System.out.print("0");
+			mask = (short)(mask >>(short)1);
+				
+		}
+		System.out.println("");
+	}*/
+	
+	/*public void printInt(int b){
+		int mask = 0b10000000000000000000000000000000;
+		System.out.println("");
+		for(int i = 0; i < 32; i++){
+			if((b & mask)==mask)
+				System.out.print("1");
+			else
+				System.out.print("0");
+			mask = (int)(mask >>(int)1);			
+				
+		}
+		System.out.println("");
+	}*/
+	/*public void printInt2(int b){
+		int mask = 0b1000000000000000;
+		int copyB = b;
+		b = b >> 16;
+		System.out.println("");
+		for(int i = 0; i < 16; i++){
+			if((b & mask)==mask)
+				System.out.print("1");
+			else
+				System.out.print("0");
+			mask = (short)(mask >>(short)1);
+				
+		}
+		mask = 0b1000000000000000;
+		b = copyB;
+		System.out.print(" ");
+		for(int i = 0; i < 16; i++){
+			if((b & mask)==mask)
+				System.out.print("1");
+			else
+				System.out.print("0");
+			mask = (short)(mask >>(short)1);
+				
+		}
+		System.out.println("");
+	}*/
 	
 }

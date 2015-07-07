@@ -32,7 +32,7 @@ public class SenseMultiUser
     public static void motemain()
     {
     	Accelerometer acc = new Accelerometer();
-    	Display dis = Display.getInstance();
+    	//Display dis = Display.getInstance();
 
         while(true)
         {
@@ -42,13 +42,13 @@ public class SenseMultiUser
         		String accS[] = new String[6];
         		accS[0] = "X:";
         		accS[1] = Integer.toString(accVector.x);
-        		accS[2] = "Y:";
+        		accS[2] = " Y:";
         		accS[3] = Integer.toString(accVector.y);
-        		accS[4] = "Z:";
+        		accS[4] = " Z:";
         		accS[5] = Integer.toString(accVector.z);
         		
-        		dis.clear();
-        		dis.print(String.join("", accS));
+        		/*dis.clear();
+        		dis.print(String.join("", accS));*/
         		
         		System.out.println("Acceleration vector:");
         		System.out.print("  x: ");System.out.print(accVector.x);
@@ -56,7 +56,7 @@ public class SenseMultiUser
         		System.out.print("  z: ");System.out.println(accVector.z);
         	}
         	Thread.sleep(500);
-        	
+        	VirtualSense.printTime();
         	/*System.out.print("ADC0: ");
         	System.out.print(ADC.readIntRef(ADC.CH0));
         	System.out.println("mV");

@@ -75,7 +75,6 @@ void javax_virtualsense_digitalio_bus_I2C_byte____readBurst_byte_byte_short(){
     ret = dj_int_array_create(T_BYTE, len);
     uint16_t l =i2c_read_burst(dev_adr, reg_adr, ret->data.bytes, ret->array.length);
     //printf("letti: %d, daleggere: %d\n", l, len);
-
     dj_exec_stackPushRef(VOIDP_TO_REF(ret));
 }
 void javax_virtualsense_digitalio_bus_I2C_boolean__writeBurst_byte_byte_byte__(){

@@ -26,5 +26,6 @@ public abstract class OutputStream
 	}
 
 	public static native void write(int b);
+	public static native void write(short b);
 	public static native void write(String s);
 }

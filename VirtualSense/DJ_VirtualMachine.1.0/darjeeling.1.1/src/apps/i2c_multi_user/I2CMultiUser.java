@@ -32,7 +32,7 @@ import java.lang.Runtime;
 
 public class I2CMultiUser
 {
-    public static void motemain(){
+    public static void motemain() {
     	
 	 	byte b = (byte)0x02;
     	byte adr = (byte)0x57;

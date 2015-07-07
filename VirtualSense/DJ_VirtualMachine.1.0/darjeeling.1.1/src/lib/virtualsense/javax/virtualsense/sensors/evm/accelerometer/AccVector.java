@@ -28,7 +28,7 @@ package javax.virtualsense.sensors.evm.accelerometer ;
  */
 public class AccVector
 {	
-	public int x;
-	public int y;
-	public int z;
+	public short x;
+	public short y;
+	public short z;
 }

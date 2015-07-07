@@ -35,6 +35,12 @@ void java_io_OutputStream_void_write_int()
 	printf("%ld", dj_exec_stackPopInt());
 }
 
+void java_io_OutputStream_void_write_short()
+{
+
+	printf("%d", dj_exec_stackPopShort());
+}
+
 // short java.io.OutputStream.write(String s)
 void java_io_OutputStream_void_write_java_lang_String()
 {

@@ -34,7 +34,7 @@
 // define wether to pack structs (this is fine on all AVR targets)
 // don't pack structs on MSP430 targets
 #define PACK_STRUCTS
-//#define ALIGN_16
+#define ALIGN_16
 
 #define WITH_MANAGE_INFUSION
 #define SERIAL_INPUT 1
