@@ -37,7 +37,6 @@ void java_io_OutputStream_void_write_int()
 
 void java_io_OutputStream_void_write_short()
 {
-
 	printf("%d", dj_exec_stackPopShort());
 }
 
@@ -46,5 +45,4 @@ void java_io_OutputStream_void_write_java_lang_String()
 {
 	char *str = REF_TO_VOIDP(dj_exec_stackPopRef());
 		printf("%s", str);
-
 }

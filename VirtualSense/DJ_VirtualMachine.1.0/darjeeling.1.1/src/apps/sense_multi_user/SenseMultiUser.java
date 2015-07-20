@@ -33,7 +33,7 @@ public class SenseMultiUser
     {
     	Accelerometer acc = new Accelerometer();
     	//Display dis = Display.getInstance();
-
+    	
         while(true)
         {
         	AccVector accVector = acc.getValue();
@@ -57,6 +57,11 @@ public class SenseMultiUser
         	}
         	Thread.sleep(500);
         	VirtualSense.printTime();
+        	
+        	int a = 2147483647;
+        	System.out.print("Scrivo 2147483647 java: ");
+        	System.out.println(a);
+        	
         	/*System.out.print("ADC0: ");
         	System.out.print(ADC.readIntRef(ADC.CH0));
         	System.out.println("mV");

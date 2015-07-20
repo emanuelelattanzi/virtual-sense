@@ -372,7 +372,7 @@ static inline int32_t popInt()
 {
 	int32_t tmp = 0;
 	intStack-=2;
-	tmp = ((*intStack) ) + ((*(intStack+1)) << 16);
+	tmp = ((*intStack) & 0x0000FFFF) | (((*(intStack+1)) << 16) & 0xFFFF0000);
 	// Cortex-M3 (cc2538) does not run otherwise
 	//return *(int32_t*)intStack;
 	return tmp;
