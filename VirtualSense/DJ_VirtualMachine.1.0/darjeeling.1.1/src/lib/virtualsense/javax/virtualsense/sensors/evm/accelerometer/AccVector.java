@@ -21,14 +21,14 @@
 package javax.virtualsense.sensors.evm.accelerometer ;
 
 /**
- * Acceleration vector.
+ * Acceleration vector. x,y,z acceleration components are specified in mG (range: -4000mG to 4000mG).
  * 
  * @author Matteo Dromedari
  *
  */
 public class AccVector
 {	
-	public short x;
-	public short y;
-	public short z;
+	public int x;
+	public int y;
+	public int z;
 }
