@@ -131,7 +131,7 @@
       <source file="../../../../../core/sys/energest.h" lastModified="14e2a13e9e8">
          <include file="../../../../../core/sys/rtimer.h"/>
       </source>
-      <source file="../../generated/base_definitions.h" lastModified="14e68c609f0">
+      <source file="../../generated/base_definitions.h" lastModified="14eac1f0940">
       </source>
       <source file="../../../src/vm/common/execution/branch_instructions.h" lastModified="14e2a13edd0">
       </source>
@@ -729,7 +729,7 @@
          <include file="../../../../../core/net/packetbuf.h"/>
          <include file="../../../../../core/net/queuebuf.h"/>
       </source>
-      <source file="../../../src/vm/opt/virtualsense/contiki/javax_virtualsense_digitalio_bus_I2C.c" lastModified="14e68c5cf58">
+      <source file="../../../src/vm/opt/virtualsense/contiki/javax_virtualsense_digitalio_bus_I2C.c" lastModified="14eafc08290">
          <include file="../../../src/vm/common/execution/execution.h"/>
          <include file="../../../src/vm/common/array.h"/>
          <include file="../../../src/vm/common/darjeeling.h"/>
@@ -852,6 +852,8 @@
       <source file="../../../../../platform/virtualsense/dev/lib/hw_types.h" lastModified="14e2a13edd0">
          <sysinclude file="../../../../../../../../../../usr/include/stdint.h"/>
       </source>
+      <source file="../../generated/virtualsense_definitions.h" lastModified="14eafc54550">
+      </source>
       <source file="../../../../../core/net/rime/collect.h" lastModified="14e2a13e9e8">
          <include file="../../../../../core/net/rime/announcement.h"/>
          <include file="../../../../../core/net/rime/runicast.h"/>
@@ -860,8 +862,6 @@
          <include file="../../../../../core/net/packetqueue.h"/>
          <include file="../../../../../core/sys/ctimer.h"/>
          <include file="../../../../../core/lib/list.h"/>
-      </source>
-      <source file="../../generated/virtualsense_definitions.h" lastModified="14e68c615a8">
       </source>
       <source file="../../../../../platform/virtualsense/dev/lib/hw_i2cm.h" lastModified="14e2a13e9e8">
       </source>

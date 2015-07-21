@@ -44,6 +44,9 @@ public class SenseMultiUser
         		System.out.print("  y: ");System.out.print(accVector.y);
         		System.out.print("  z: ");System.out.println(accVector.z);
         	}
+        	else {
+        		System.out.println("Error null");
+        	}
         	Thread.sleep(500);
         	VirtualSense.printTime();
         	

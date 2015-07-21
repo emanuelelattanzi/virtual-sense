@@ -71,11 +71,10 @@ void javax_virtualsense_digitalio_bus_I2C_byte____readBurst_byte_byte_short(){
 	uint8_t reg_adr = dj_exec_stackPopShort();
 	uint8_t dev_adr = dj_exec_stackPopShort();
 
-
     ret = dj_int_array_create(T_BYTE, len);
-    uint16_t l =i2c_read_burst(dev_adr, reg_adr, ret->data.bytes, ret->array.length);
-    //printf("letti: %d, daleggere: %d\n", l, len);
-    dj_exec_stackPushRef(VOIDP_TO_REF(ret));
+    uint16_t l = i2c_read_burst(dev_adr, reg_adr, ret->data.bytes, ret->array.length);
+    printf("letti: %d, daleggere: %d\n", l, len);
+    dj_exec_stackPushRef((l == len)?VOIDP_TO_REF(ret):VOIDP_TO_REF(nullref));
 }
 void javax_virtualsense_digitalio_bus_I2C_boolean__writeBurst_byte_byte_byte__(){
 	dj_int_array * values = REF_TO_VOIDP(dj_exec_stackPopRef());

@@ -49,41 +49,42 @@ public class Accelerometer
 		I2C.enable();
 		// read and check the FXLS8471Q WHOAMI register
 		byte read[] = I2C.readBurst(FXLS8471Q_ADR, FXLS8471Q_WHOAMI, (short)1);
-		
-		if(read[0] == FXLS8471Q_WHOAMI_VAL) {
-			System.out.print("whoami done val: ");
-			
+		if(read != null) {
+			if(read[0] == FXLS8471Q_WHOAMI_VAL) {
+				System.out.print("whoami done val: ");
+				
+			}
+			// write 0000 0000 = 0x00 to accelerometer control register 1 to place FXLS8471Q into
+			// standby
+			// [7-1] = 0000 000
+			// [0]: active=0
+			byte write2[] = {(byte)0x00};
+			if(I2C.writeBurst(FXLS8471Q_ADR, FXLS8471Q_CTRL_REG1, write2)) {
+				System.out.println("sensor in active");
+			}		
+			// write 0000 0001= 0x01 to XYZ_DATA_CFG register
+			// [7]: reserved
+			// [6]: reserved
+			// [5]: reserved
+			// [4]: hpf_out=0
+			// [3]: reserved
+			// [2]: reserved
+			// [1-0]: fs=01 for accelerometer range of +/-4g with 0.488mg/LSB
+			byte write3[] = {(byte)0x01};
+			if(I2C.writeBurst(FXLS8471Q_ADR, FXLS8471Q_XYZ_DATA_CFG, write3)) {
+				System.out.println("cfg OK");
+			}
+			// write 0001 0101b = 0x15 to accelerometer control register 1
+			// [7-6]: aslp_rate=00
+			// [5-3]: dr=010 for 200Hz data rate
+			// [2]: lnoise=1 for low noise mode
+			// [1]: f_read=0 for normal 16 bit reads
+			// [0]: active=1 to take the part out of standby and enable sampling
+			byte write4[] = {(byte)0x15};
+			if(I2C.writeBurst(FXLS8471Q_ADR, FXLS8471Q_CTRL_REG1, write3)) {
+				System.out.println("start 16bit read OK");
+			}
 		}
-		// write 0000 0000 = 0x00 to accelerometer control register 1 to place FXLS8471Q into
-		// standby
-		// [7-1] = 0000 000
-		// [0]: active=0
-		byte write2[] = {(byte)0x00};
-		if(I2C.writeBurst(FXLS8471Q_ADR, FXLS8471Q_CTRL_REG1, write2)) {
-			System.out.println("sensor in active");
-		}		
-		// write 0000 0001= 0x01 to XYZ_DATA_CFG register
-		// [7]: reserved
-		// [6]: reserved
-		// [5]: reserved
-		// [4]: hpf_out=0
-		// [3]: reserved
-		// [2]: reserved
-		// [1-0]: fs=01 for accelerometer range of +/-4g with 0.488mg/LSB
-		byte write3[] = {(byte)0x01};
-		if(I2C.writeBurst(FXLS8471Q_ADR, FXLS8471Q_XYZ_DATA_CFG, write3)) {
-			System.out.println("cfg OK");
-		}
-		// write 0001 0101b = 0x15 to accelerometer control register 1
-		// [7-6]: aslp_rate=00
-		// [5-3]: dr=010 for 200Hz data rate
-		// [2]: lnoise=1 for low noise mode
-		// [1]: f_read=0 for normal 16 bit reads
-		// [0]: active=1 to take the part out of standby and enable sampling
-		byte write4[] = {(byte)0x15};
-		if(I2C.writeBurst(FXLS8471Q_ADR, FXLS8471Q_CTRL_REG1, write3)) {
-			System.out.println("start 16bit read OK");
-		}		
 	}
 	
 	/**
@@ -96,21 +97,23 @@ public class Accelerometer
 		// read status and the three channels of accelerometer data from
 		// FXLS8471Q (7 bytes)	
 		byte buffer[] = I2C.readBurst(FXLS8471Q_ADR, FXLS8471Q_STATUS, (short)FXLS8471Q_READ_LEN);
-		
-		if(buffer.length == FXLS8471Q_READ_LEN) {
+	
+		if(buffer != null && buffer.length == FXLS8471Q_READ_LEN) {
 		// copy the 14 bit accelerometer byte data into 16 bit words	
 			
-			int tmp = (buffer[1] << 8) & 0xFFFFFF00;
-			tmp = tmp | ((buffer[2]) & 0x000000FF);
-			vec.x = (tmp * 488)/1000;
+			int tmp = buffer[1] << 24;
+			tmp = tmp | (0x00FF0000 & (buffer[2] << 16));
+			vec.x = ((tmp >> 18) * 488) / 1000;
+		
 			
-			tmp = (buffer[3] << 8) & 0xFFFFFF00;
-			tmp = tmp | ((buffer[4]) & 0x000000FF);
-			vec.y = (tmp * 488)/1000;
+			tmp = buffer[3] << 24;
+			tmp = tmp | (0x00FF0000 & (buffer[4] << 16));
+			vec.y = ((tmp >> 18) * 488) / 1000;
 			
-			tmp = (buffer[5] << 8) & 0xFFFFFF00;
-			tmp = tmp | ((buffer[6]) & 0x000000FF);
-			vec.z = (tmp * 488)/1000;
+			
+			tmp = buffer[5] << 24;			
+			tmp = tmp | (0x00FF0000 & (buffer[6] << 16));			
+			vec.z = ((tmp >> 18) * 488) / 1000;
 		}
 		else
 			vec = null;
