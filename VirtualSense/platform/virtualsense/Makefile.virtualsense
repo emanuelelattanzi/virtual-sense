@@ -10,8 +10,8 @@ CONTIKI_TARGET_SOURCEFILES += leds.c leds-arch.c
 CONTIKI_TARGET_SOURCEFILES += contiki-virtualsense-main.c
 CONTIKI_TARGET_SOURCEFILES += sensors.c smartrf-sensors.c button-sensor.c
 
-CONTIKI_TARGET_SOURCEFILES += pcf2123_spi.c ssi.c power-interface.c i2c.c adc.c
-CONTIKI_TARGET_SOURCEFILES += digitalio.c serial-input.c eeprom_24AA1025.c eeprom_24AA512.c SI7020.c
+CONTIKI_TARGET_SOURCEFILES += pcf2123_spi.c ssi.c power-interface.c i2c.c adc.c storage.c
+CONTIKI_TARGET_SOURCEFILES += digitalio.c serial-input.c eeprom_24AA1025.c eeprom_24AA512.c SI7020.c flash_SST26WF080B.c
 CONTIKI_TARGET_SOURCEFILES += EUI-48_24AA025E48.c
 CONTIKI_TARGET_SOURCEFILES += null_eeprom.c eeprom.c      
 CONTIKI_TARGET_SOURCEFILES += _ssi.c _interrupt.c _debug.c _ioc.c _gpio.c _sys_ctrl.c _cpu.c _i2c.c _adc.c

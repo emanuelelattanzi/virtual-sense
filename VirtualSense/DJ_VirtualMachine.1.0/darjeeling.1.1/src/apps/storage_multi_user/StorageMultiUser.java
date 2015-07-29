@@ -31,49 +31,20 @@ import java.lang.Runtime;
  */
 public class StorageMultiUser
 {
+	private static final short TEST_VAR = (short) 2;
+	
 	public static void motemain()
     {
-		while(true)
-		{
-			/*int i = 23;
-			
-			System.out.print("write integer: ");
-			System.out.print(i);
-			System.out.println("...");
-			Storage.writeVar("i", i);
-			
-			System.out.print("read integer: ");
-			int r = Storage.readInt("i");
-			System.out.print(r);
-			System.out.println(".");
-			*/
-			short s = 3;
-			
-			System.out.print("write short: ");
-			System.out.print(s);
-			System.out.println("...");
-			Storage.writeVar("s", s);
-			
-			System.out.print("read shorts: ");
-			short x = Storage.readShort("s");
-			System.out.print(x);
-			System.out.println(".");
-			
-			String a = "matteo";
-			
-			System.out.print("write String: ");
-			System.out.print(a);
-			System.out.println("...");
-			Storage.writeVar("a", a);
-			
-			System.out.print("read string: ");
-			String g = Storage.readString("a");
-			System.out.print(g);
-			System.out.println(".");
-			
-			
-			
-			Thread.sleep(2000);
-		}
+		int testVar = 12345;
+
+		System.out.print("Save int var: ");
+		System.out.println(testVar);
+		
+		Storage.saveIntVar(TEST_VAR, testVar);
+		
+		Thread.sleep(1000);
+		
+		System.out.print("Read var: ");
+		System.out.println(Storage.readIntVar(TEST_VAR));
     }
 }

@@ -132,6 +132,12 @@ void java_lang_Thread_short__getCurrentThreadId()
 	dj_exec_stackPushShort(dj_exec_getCurrentThread()->id);
 }
 
+// short java.lang.Thread._getAppId()
+void java_lang_Thread_short__getAppId()
+{
+	dj_exec_stackPushShort(dj_exec_getCurrentThread()->executionContext);
+}
+
 // int java.lang.Thread.activeCount()
 void java_lang_Thread_int_activeCount()
 {

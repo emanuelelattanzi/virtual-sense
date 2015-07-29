@@ -192,18 +192,21 @@
 #define SSI0_SPI_MOSI_PIN       GPIO_PIN_4
 #define SSI0_SPI_MISO_PIN       GPIO_PIN_5
 
-#define SSI0_SPI_CE0_PORT	GPIO_B_BASE
-#define SSI0_SPI_CE0_PIN   	GPIO_PIN_0
+#define SSI0_SPI_CE0_PORT		GPIO_B_BASE
+#define SSI0_SPI_CE0_PIN   		GPIO_PIN_0
 #define SSI0_SPI_CE1_PORT   	GPIO_B_BASE
 #define SSI0_SPI_CE1_PIN      	GPIO_PIN_1
 #define SSI0_SPI_CE2_PORT   	GPIO_B_BASE
 #define SSI0_SPI_CE2_PIN      	GPIO_PIN_2
-#define RTC_SPI_CE_PORT   	GPIO_B_BASE
+#define RTC_SPI_CE_PORT   		GPIO_B_BASE
 #define RTC_SPI_CE_PIN        	GPIO_PIN_6
+#define NOR_FLASH_SPI_CE_PORT   GPIO_B_BASE
+#define NOR_FLASH_CE_PIN        SSI0_SPI_CE0_PIN
 
-#define CE0 	0
-#define CE1 	1
-#define CE2 	2
+#define CE0 			0
+#define CE1 			1
+#define CE2 			2
+
 
 /** @} */
 /*---------------------------------------------------------------------------*/
@@ -269,8 +272,8 @@
 #define ADC0			    0
 #define ADC1			    1
 #define ADC2			    2
-#define ADCVDD		    	    3
-#define ADCTEMP		    	    4
+#define ADCVDD		    	3
+#define ADCTEMP		    	4
 
 #define ADC_PORT		    GPIO_A_BASE
 #define ADC0_PIN		    GPIO_PIN_3

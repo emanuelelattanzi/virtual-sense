@@ -22,6 +22,7 @@ import javax.virtualsense.actuators.Leds;
 
 import javax.virtualsense.sensors.*;
 import javax.virtualsense.sensors.evm.accelerometer.*;
+import javax.virtualsense.storage.*;
 import javax.virtualsense.actuators.evm.display.*;
 import javax.virtualsense.VirtualSense;
 import javax.darjeeling.Darjeeling;
