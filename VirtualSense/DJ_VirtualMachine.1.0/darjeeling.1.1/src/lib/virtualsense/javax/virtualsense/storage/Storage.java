@@ -33,15 +33,15 @@ package javax.virtualsense.storage;
 public class Storage
 {
 	public static void saveIntVar(short varId, int var) {
-		_saveIntVar((short)1, varId, var);
+		_saveIntVar(Thread.getCurrentAppId(), varId, var);
 	}
 	
 	public static int readIntVar(short varId) {
-		return _readIntVar((short)1, varId);
+		return _readIntVar(Thread.getCurrentAppId(), varId);
 	}
 	
 	public static void deleteVar(short varId) {
-		_deleteVar((short)1, varId);
+		_deleteVar(Thread.getCurrentAppId(), varId);
 	}
 	
 	private static native void _saveIntVar(short appId, short varId, int var);

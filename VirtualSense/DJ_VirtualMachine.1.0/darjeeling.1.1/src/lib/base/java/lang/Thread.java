@@ -53,7 +53,7 @@ public class Thread implements Runnable
 	private static native short _getCurrentThreadId();
 	
 	// returns the id of current app
-	private static native short _getAppId();
+	private static native short _getCurrentAppId();
 
 	// creates a new java.lang.Thread object with a given ID
 	private Thread(short id)
@@ -111,8 +111,8 @@ public class Thread implements Runnable
 		return new Thread(_getCurrentThreadId());
 	}
 	
-	public static short getAppId() {
-		return _getAppId();
+	public static short getCurrentAppId() {
+		return _getCurrentAppId();
 	}
  
 	public boolean isAlive()

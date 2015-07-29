@@ -132,8 +132,8 @@ void java_lang_Thread_short__getCurrentThreadId()
 	dj_exec_stackPushShort(dj_exec_getCurrentThread()->id);
 }
 
-// short java.lang.Thread._getAppId()
-void java_lang_Thread_short__getAppId()
+// short java.lang.Thread._getCurrentAppId()
+void java_lang_Thread_short__getCurrentAppId()
 {
 	dj_exec_stackPushShort(dj_exec_getCurrentThread()->executionContext);
 }

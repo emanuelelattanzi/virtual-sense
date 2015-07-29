@@ -211,7 +211,7 @@ main(void)
 	write[i] = (uint8_t)i;
   }
 
-
+/*
   printf("Scrivo flash\n");
   chip_erase_SST26WF080B();
   //erase_sector_SST26WF080B(4096);
@@ -233,7 +233,7 @@ main(void)
 		  else
 			  printf("NO\n");
 	  }
-  }
+  }*/
 
   RTC_init();
 
