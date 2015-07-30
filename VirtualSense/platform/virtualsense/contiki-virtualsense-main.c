@@ -72,6 +72,7 @@
 #include "dev/BH1620FVC.h"
 //#include "i2c.h"
 #include "dev/adc.h"
+#include "dev/storage.c"
 
 //#include "../../DJ_VirtualMachine.1.0/darjeeling.1.1/src/vm/distro/virtualsense/DJ.h"
 
@@ -203,37 +204,22 @@ main(void)
 
   init_SST26WF080B();
   
-  
-  uint8_t write[256];
-  uint16_t i = 0;
-  uint16_t j = 0;
-  for(i = 0; i < 256; i++) {
-	write[i] = (uint8_t)i;
-  }
 
-/*
-  printf("Scrivo flash\n");
-  chip_erase_SST26WF080B();
-  //erase_sector_SST26WF080B(4096);
-  for(i = 0; i < 16; i++) {
-	  write_page_SST26WF080B(4096 + (i * 256), write);
-  }
 
-  printf("Leggo flash\n");
-  uint8_t read[256];
+  printf("format storage\n");
+  format_mem();
 
-  for(j = 0; j < 16; j++) {
-	  read_sequential_SST26WF080B(4096 + (j * 256), read, 256);
-	  //read_sector_SST26WF080B(4096, read);
-
-	  for (i = 0; i < 256; i++) {
-		  printf("sector[%d] w: %x - r: %x ", i + (j*256), write[i], read[i]);
-		  if(write[i] == read[i])
-			  printf("OK\n");
-		  else
-			  printf("NO\n");
-	  }
-  }*/
+  int32_t to_save = 12345;
+  printf("Salvo 1,1: %d...\n", to_save);
+  save_int_var(1, 1, to_save);
+  printf("Salvo 1,2: %d...\n", to_save + 3);
+  save_int_var(1, 2, to_save + 3);
+  //write_mem(1);
+  printf("Leggo 1,1: %d\n", read_int_var(1, 1));
+  printf("Salvo 1,1: %d...\n", to_save + 2);
+  save_int_var(1, 1, to_save + 2);
+  printf("Leggo to_save + 2 in 1,1: %d\n", read_int_var(1, 1));
+  printf("Leggo to_save + 3 in 1,2: %d\n", read_int_var(1, 2));
 
   RTC_init();
 

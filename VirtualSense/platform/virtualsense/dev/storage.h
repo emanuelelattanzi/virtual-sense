@@ -47,10 +47,11 @@
 
 
 
-void save_int(uint16_t, uint16_t, int32_t);
+void save_int_var(uint16_t, uint16_t, int32_t);
 int32_t read_int_var(uint16_t, uint16_t);
 void delete_var(uint16_t, uint16_t);
-
+void write_mem(uint8_t);
+void format_mem();
 
 
 
