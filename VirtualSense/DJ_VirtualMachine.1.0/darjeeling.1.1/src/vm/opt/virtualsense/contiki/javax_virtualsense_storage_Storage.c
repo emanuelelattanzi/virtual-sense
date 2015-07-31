@@ -36,8 +36,6 @@
 
 
 
-
-
 // javax.virtualsense.storage void _saveIntVar(short appId, short varId, int var);
 void javax_virtualsense_storage_Storage_void__saveIntVar_short_short_int(){
 
@@ -45,10 +43,7 @@ void javax_virtualsense_storage_Storage_void__saveIntVar_short_short_int(){
 	uint16_t var_id = dj_exec_stackPopShort();
 	uint16_t app_id = dj_exec_stackPopShort();
 
-	printf("c - save int var\n");
-	printf(" var: %d\n", var);
-	printf(" var id: %d\n", var_id);
-	printf(" app id: %d\n", app_id);
+	save_var(app_id-1, var_id, (uint32_t)var);
 }
 
 // javax.virtualsense.storage int _readIntVar(short appId, short varId);
@@ -57,11 +52,7 @@ void javax_virtualsense_storage_Storage_int__readIntVar_short_short(){
 	uint16_t var_id = dj_exec_stackPopShort();
 	uint16_t app_id = dj_exec_stackPopShort();
 
-	printf("c - read int var\n");
-	printf(" var id: %d\n", var_id);
-	printf(" app id: %d\n", app_id);
-
-	dj_exec_stackPushInt(0);
+	dj_exec_stackPushInt((int32_t)read_var(app_id-1, var_id));
 }
 
 // javax.virtualsense.storage void _deleteVar(short appId, short varId);
@@ -70,7 +61,5 @@ void javax_virtualsense_storage_Storage_void__deleteVar_short_short(){
 	uint16_t var_id = dj_exec_stackPopShort();
 	uint16_t app_id = dj_exec_stackPopShort();
 
-	printf("c - delete var\n");
-	printf(" var id: %d\n", var_id);
-	printf(" app id: %d\n", app_id);
+	delete_var(app_id-1, var_id);
 }

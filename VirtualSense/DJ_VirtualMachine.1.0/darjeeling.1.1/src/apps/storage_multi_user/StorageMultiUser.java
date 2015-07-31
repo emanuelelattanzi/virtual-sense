@@ -37,14 +37,15 @@ public class StorageMultiUser
     {
 		int testVar = 12345;
 
-		System.out.print("Save int var: ");
+		System.out.print("Read TEST_VAR: ");
+		System.out.println(Storage.readIntVar(TEST_VAR));
+		
+		System.out.print("Save TEST_VAR: ");
 		System.out.println(testVar);
 		
 		Storage.saveIntVar(TEST_VAR, testVar);
 		
-		Thread.sleep(1000);
-		
-		System.out.print("Read var: ");
+		System.out.print("Read TEST_VAR: ");
 		System.out.println(Storage.readIntVar(TEST_VAR));
     }
 }

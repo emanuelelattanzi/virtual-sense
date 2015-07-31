@@ -203,23 +203,7 @@ main(void)
   //test_24AA512();
 
   init_SST26WF080B();
-  
-
-
-  printf("format storage\n");
-  format_mem();
-
-  int32_t to_save = 12345;
-  printf("Salvo 1,1: %d...\n", to_save);
-  save_int_var(1, 1, to_save);
-  printf("Salvo 1,2: %d...\n", to_save + 3);
-  save_int_var(1, 2, to_save + 3);
   //write_mem(1);
-  printf("Leggo 1,1: %d\n", read_int_var(1, 1));
-  printf("Salvo 1,1: %d...\n", to_save + 2);
-  save_int_var(1, 1, to_save + 2);
-  printf("Leggo to_save + 2 in 1,1: %d\n", read_int_var(1, 1));
-  printf("Leggo to_save + 3 in 1,2: %d\n", read_int_var(1, 2));
 
   RTC_init();
 
