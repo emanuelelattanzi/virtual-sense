@@ -31,9 +31,14 @@ public class Packet implements Serializable
 {
 	 
      private short s_ID;
+     public short port = (short)0;
      
      public Packet(){
-    	 
+
+     }
+     
+     public Packet(short senderId){
+    	 this.s_ID = senderId;
      }
      
      /* this constructor is used to create a packet from a received byte array taken from the radio */

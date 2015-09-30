@@ -45,6 +45,13 @@ void javax_virtualsense_VirtualSense_short_getNodeId()
 	 dj_exec_stackPushShort(node_id);
 }
 
+// void javax.virtualsense.VirtualSense.setNodeId(short nodeId)
+void javax_virtualsense_VirtualSense_void_setNodeId_short()
+{
+	// pop node id from the stack and write it on the eeprom
+	uint16_t node_id = dj_exec_stackPopShort();
+	//node_id_burn(node_id);
+}
 
 void javax_virtualsense_VirtualSense_void_printTime(){
 #ifdef PLATFORM_HAS_RTC_PCF2123

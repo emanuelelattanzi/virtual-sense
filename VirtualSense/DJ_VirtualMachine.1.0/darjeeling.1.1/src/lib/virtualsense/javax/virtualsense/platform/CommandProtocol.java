@@ -66,7 +66,7 @@ public class CommandProtocol extends Protocol{
 				 System.out.println(" Forward InfoMsg to the sink");
 				 Thread.sleep(500);
 				 super.send(msg);
-				 Leds.setLed(1,false);	
+				 Leds.setLed(Leds.LED1,false);	
 			 }/*else {
 				 VirtualSense.printTime();
 				 super.notifyReceiver();

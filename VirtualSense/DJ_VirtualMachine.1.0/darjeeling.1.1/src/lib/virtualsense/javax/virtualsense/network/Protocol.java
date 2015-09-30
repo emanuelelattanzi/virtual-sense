@@ -30,30 +30,36 @@ import javax.virtualsense.radio.Radio;
  */
 public abstract class Protocol 
 {
+    public static final short NULL = 0;
+	public static final short MINPATH = 1;
+	
     protected short bestPath;
     private  boolean running; 
     private  Packet actualPacket;
     private  Semaphore packet;
+    protected boolean sink;
     
     public Protocol(){
     	this.bestPath =-1;
         this.running = true;
         this.actualPacket = null;
         this.packet = new Semaphore((short)0);
+        this.sink = false;
     }
     /**
      * Send a packet to a node inside the network choosing the best path.
      * @param packet to be sent.
      */
     // invoke Radio.send(short, data) with bestPath as dest
-    protected void send(Packet p){
+    //protected void send(Packet p){ //METH for invoque send in class InterestMsg of minPat package 
+    public void send(Packet p){
     	if (p instanceof UnicastPacket){
     		if(bestPath >= 0){
-    			System.out.print("unicast to ");
+    			System.out.print("send unicast to ");
     			System.out.println(bestPath);
     			Radio.send((short)bestPath, p.toByteArray());     
     		}else{
-    			System.out.println("broadcast");
+    			System.out.println("send broadcast");
     			Radio.broadcast(p.toByteArray());
             
     		}
@@ -90,7 +96,12 @@ public abstract class Protocol
      */
     protected void notifyReceiver(){
         // should wake-up the receiver calling thread!
-        packet.release();
+        // packet.release();
+    	
+    	// wake-up all threads using this protocol!
+    	do{
+    		this.packet.release();
+    	}while(packet.availablePermits() < 0);
     }
     
     /**
@@ -100,6 +111,15 @@ public abstract class Protocol
      */
     protected void packetHandler(Packet p){
     	
+    }
+    
+    protected void setSink(){
+    	this.sink = true;
+    	this.sinkInit();
+    }
+    
+    protected void sinkInit(){
+
     }
     	    
     /**

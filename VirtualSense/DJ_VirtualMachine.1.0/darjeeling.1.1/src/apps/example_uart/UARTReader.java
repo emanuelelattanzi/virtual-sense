@@ -1,10 +1,10 @@
 /*
- *	javax_virtualsense_actuators_Leds.c
- *
- *  Copyright (c) 2011 DiSBeF, University of Urbino.
- *
+ *	UARTMultiUser.java
+ * 
+ *	Copyright (c) 2013 DiSBeF, University of Urbino.
+ * 
  *	This file is part of VirtualSense.
- *
+ * 
  *	VirtualSense is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
  *	the Free Software Foundation, either version 3 of the License, or
@@ -14,37 +14,31 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *	GNU General Public License for more details.
- *
+ * 
  *	You should have received a copy of the GNU General Public License
  *	along with VirtualSense.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
- * Controls the leds on the board.
- *
+ * Simple UART test application to read data from UART.
+ * 
  * @author Emanuele Lattanzi
  *
  */
+import javax.virtualsense.powermanagement.PowerManager;
+import javax.virtualsense.digitalio.bus.UART;
+import javax.virtualsense.actuators.Leds;
+import java.lang.Runtime;
 
-#include <stdint.h>
-
-#include "common/array.h"
-#include "common/execution/execution.h"
-#include "base_definitions.h"
-
-#include "dev/leds.h"
-
-
-
-// void javax.virtualsense.actuators.Leds.setLed(int, boolean)
-void javax_virtualsense_actuators_Leds_void_setLed_short_boolean()
+public class UARTReader
 {
-	int16_t on = dj_exec_stackPopShort();
-	int16_t nr = dj_exec_stackPopShort();
-
-
-	if (nr==0) if (on) leds_on(LEDS_YELLOW); else leds_off(LEDS_YELLOW);
-	if (nr==1) if (on) leds_on(LEDS_GREEN); else leds_off(LEDS_GREEN);
-	if (nr==2) if (on) leds_on(LEDS_ORANGE); else leds_off(LEDS_ORANGE);
-
+	
+    public static void motemain()
+    {
+    	while(true) {
+    		String r = UART.readline();
+    		System.out.print("From UART: ");
+    		System.out.println(r);
+    	}
+    }
 }

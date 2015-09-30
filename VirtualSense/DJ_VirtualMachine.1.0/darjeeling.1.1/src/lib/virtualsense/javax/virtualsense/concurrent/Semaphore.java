@@ -42,7 +42,7 @@ public class Semaphore
 	 * Creates a Semaphore with the given number of permits.
 	 * @param _permits number of permits.
 	 */
-	public Semaphore(short _permits){
+	public Semaphore(short permits){
 		this.permits = permits;
 		this.id = _create();
 	}
@@ -80,6 +80,10 @@ public class Semaphore
 		if(this.permits > 0){
 			_wakeupWaitingThread(this.id);
 		}
+	}
+	
+	public short availablePermits(){
+		return this.permits;
 	}
 	
 }

@@ -1,7 +1,7 @@
 /*
- *	Leds.java
+ *	NullProtocol.java
  * 
- *  Copyright (c) 2011 DiSBeF, University of Urbino.
+ *  Copyright (c) 2012 DiSBeF, University of Urbino.
  *
  *	This file is part of VirtualSense.
  *
@@ -18,26 +18,28 @@
  *	You should have received a copy of the GNU General Public License
  *	along with VirtualSense.  If not, see <http://www.gnu.org/licenses/>.
  */
+package javax.virtualsense.network.protocols.none;
 
-package javax.virtualsense.actuators ;
+import javax.virtualsense.network.*;
+
 
 /**
- * Controls the leds on the board.
- * 
- * @author Emanuele Lattanzi
+ * Defines a protocol that forwards all incoming packet at application level.
  *
+ * @author Lattanzi
  */
-public class Leds
-{
-	public static final short LED0 = 0;
-	public static final short LED1 = 1;
-	public static final short LED2 = 2;
+public class NullProtocol extends Protocol{
 	
-	/**
-	 * Sets the state of specified led.
-	 * @param led the led to set (0, 1, 2)
-	 * @param state the state of the led. (true=on, false=off)
-	 */
-    public static native void setLed(short led, boolean state);
+    protected void packetHandler(Packet p){
+        // each pachet will be forwarded to application level
+    	//System.out.println("NULL receive message");
+        super.notifyReceiver();
+    }
+    
+    protected void sinkInit(){ 	
+    }
 
+    public String toString(){
+    	return "NullProtocol";
+    }
 }

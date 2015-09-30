@@ -56,6 +56,11 @@ public class VirtualSense
 	public static native short getNodeId();
 	
 	/**
+	 * Burn on eeprom the identification of current node.
+	 */
+	public static native void setNodeId(short nodeId);
+	
+	/**
 	 * Write on serial port the system time.
 	 */
 	public static native void printTime();
