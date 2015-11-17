@@ -57,7 +57,7 @@ public class Packet implements Serializable
       * Set sender identifier of current packet.
       * @param new packet sender.
       */
-     protected void setSender(short sender){
+     public void setSender(short sender){
     	 this.s_ID = sender;
      }     
      

@@ -63,7 +63,7 @@ main()
   clock_init();
   
   process_init();
-  printf("Started\n");
+  //---printf("Started\n");
   
   procinit_init();
   enableIRQ(); 

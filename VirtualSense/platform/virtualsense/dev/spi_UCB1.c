@@ -60,7 +60,7 @@ void spi_UCB1_init(uint8_t clock_divider){
 		/* Initialize USCI state machine */
 		UCB1CTL1 &= ~UCSWRST;
 		SPI_up = 1;
-		printf("SPI initialized\n");
+		//---printf("SPI initialized\n");
 
 	}
 }

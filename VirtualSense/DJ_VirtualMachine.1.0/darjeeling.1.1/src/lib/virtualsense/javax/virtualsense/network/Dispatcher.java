@@ -102,7 +102,7 @@ public class Dispatcher extends Thread
     protected static void registerProtocol(Protocol protocol){
     	mutex.acquire();
 		protocols[index] = protocol;
-    	System.out.print("Registered protocol[");System.out.print(index);System.out.print("]: ");System.out.println(protocols[index].toString());
+    	//---System.out.print("Registered protocol[");System.out.print(index);System.out.print("]: ");System.out.println(protocols[index].toString());
     	//System.out.print(index);
     	index = index +1;
     	mutex.release();
@@ -152,7 +152,7 @@ public class Dispatcher extends Thread
     		}
 				
     		protocols[index] = p;
-    		System.out.print("Registered protocol[");System.out.print(index);System.out.print("]: ");System.out.println(protocols[index].toString());
+    		//System.out.print("Registered protocol[");System.out.print(index);System.out.print("]: ");System.out.println(protocols[index].toString());
         	//System.out.println(index);
         	index = index +1;
     	}

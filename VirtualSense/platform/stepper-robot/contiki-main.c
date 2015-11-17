@@ -158,7 +158,7 @@ main()
 #endif /* WITH_UIP */
 
   printf("Heap size: %ld bytes\n", &__heap_end__ - (char*)sbrk(0));
-  printf("Started\n");
+  //---printf("Started\n");
 
   /* procinit_init(); */
 

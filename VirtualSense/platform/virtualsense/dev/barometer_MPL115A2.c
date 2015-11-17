@@ -104,7 +104,7 @@ static  float _mpl115a2_c12;
 	 	//printf("temp MSB %x\n", res);
 	 	temp = (res << 8);
 	 	res = i2c_read(0);
-	 	temp += res;
+	 	temp |= res;
 	 	temp = temp >> 6;
 
 	 	//printf("temp is %d\n", temp);
@@ -122,7 +122,7 @@ static  float _mpl115a2_c12;
 	 	 //printf("temp MSB %x\n", res);
 	 	 press = (res << 8);
 	 	 res = i2c_read(0);
-	 	 press += res;
+	 	 press |= res;
 	 	 press = press >> 6;
 
 	 	 i2c_stop();
@@ -164,7 +164,7 @@ static  float _mpl115a2_c12;
  	 //printf("temp MSB %x\n", res);
  	 ret = (res << 8);
  	 res = i2c_read(0);
- 	 ret += res;
+ 	 ret |= res;
  	 ret = ret >> 6;
 
  	 i2c_stop();

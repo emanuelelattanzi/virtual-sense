@@ -58,7 +58,7 @@ javax_virtualsense_platform_Task_short__getDefaultTasksNumber(){
 	  if(context->execution_context_id > 0)
 		  number++;
 	}
-	printf("Installed applications %d\n",number);
+	//---printf("Installed applications %d\n",number);
 	dj_exec_stackPushShort(number);
 }
 

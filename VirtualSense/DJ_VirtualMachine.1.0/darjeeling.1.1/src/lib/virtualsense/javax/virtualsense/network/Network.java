@@ -84,7 +84,7 @@ public class Network {
      */
     public void send(Packet packet){
     	packet.port = this.myPort;
-    	System.out.print(this.myProtocol.toString());System.out.print("(on port: ");System.out.print(this.myPort);System.out.print("): ");
+    	//System.out.print(this.myProtocol.toString());System.out.print("(on port: ");System.out.print(this.myPort);System.out.print("): ");
     	Dispatcher.send(packet, this.myProtocol);	
     }
     
@@ -106,7 +106,7 @@ public class Network {
     	Packet p;
     	do{
     		p = Dispatcher.receive(this.myProtocol);
-    		System.out.print(this.myProtocol.toString());System.out.print(" incoming packet on port: ");System.out.println(p.port);
+    		//System.out.print(this.myProtocol.toString());System.out.print(" incoming packet on port: ");System.out.println(p.port);
     	}
     	while(p.port != myPort);
     		

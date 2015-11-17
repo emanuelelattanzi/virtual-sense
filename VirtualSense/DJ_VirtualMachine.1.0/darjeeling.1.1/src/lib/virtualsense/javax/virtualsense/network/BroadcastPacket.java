@@ -29,6 +29,5 @@ import java.io.Serializable;
  */
 public class BroadcastPacket extends Packet implements Serializable
 {
-	 
           
 }

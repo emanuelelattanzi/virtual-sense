@@ -97,7 +97,7 @@ PROCESS_THREAD(serial_line_process, ev, data)
   serial_line_event_message = process_alloc_event();
   ptr = 0;
 
-  printf("Started\n");
+  //---printf("Started\n");
   while(1) {
     /* Fill application buffer until newline or empty */
     int c = ringbuf_get(&rxbuf);

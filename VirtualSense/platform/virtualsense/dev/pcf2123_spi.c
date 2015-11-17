@@ -33,6 +33,15 @@
 #include "contiki-conf.h"
 #include "power-interface.h"
 
+#define DEBUG 0
+#if DEBUG
+#include <stdio.h>
+#define PRINTF(...) printf(__VA_ARGS__)
+#define PRINTDEBUG(...) printf(__VA_ARGS__)
+#else
+#define PRINTF(...)
+#define PRINTDEBUG(...)
+#endif
 
 uint8_t RTC_is_up(void){ //TODO: trovare un modo pulito per farlo
 	uint8_t res = 0;
@@ -43,7 +52,7 @@ uint8_t RTC_is_up(void){ //TODO: trovare un modo pulito per farlo
 
 /* initilize the RTC module */
 void RTC_init(void){
-	//printf("Init rtc\n");
+	//PRINTF("Init rtc\n");
 	 // to remove when removed transistor
 	lock_SPI(); //NON ci sarebbe bisogno ma in questo modo impedisco che PM spenga
 	// la SPI durante l'inizializzazione. Non servirebbe perch� ogni write acquisisce il lock
@@ -51,7 +60,7 @@ void RTC_init(void){
 	uint8_t cout_value = RTC_read_register(PCF2123_REG_T_CLOKOUT);
 	//cout_value = 0x00; MET debug
 	if(cout_value != 0x71){ // the rtc should be initialized because it has been just powerd-up
-		printf("Need to initialize RTC\n");
+		PRINTF("Need to initialize RTC\n");
 		/* reset RTC */
 		RTC_write_register(PCF2123_REG_CTRL1, PCF2123_RESET);
 
@@ -76,7 +85,7 @@ void RTC_init(void){
 		RTC_write_register(PCF2123_REG_DW, bin2bcd(0x00));
 		RTC_write_register(PCF2123_REG_YR, bin2bcd(0x0B));
 		release_SPI();
-		printf("RTC initialized with minutes %d\n", bcd2bin(RTC_read_register(PCF2123_REG_MN)));
+		PRINTF("RTC initialized with minutes %d\n", bcd2bin(RTC_read_register(PCF2123_REG_MN)));
 	}
 }
 
@@ -91,7 +100,7 @@ void RTC_schedule_interrupt_at_minutes(uint8_t minutes){
 	uint8_t current_value = RTC_read_register(PCF2123_REG_CTRL2);
 	current_value |= PCF2123_AL_INT;
 	RTC_write_register(PCF2123_REG_CTRL2, current_value); // Enable alarm interrupt
-	printf("Setting interrupt  at hours %d and minutes %d\n",hours,minutes);
+	PRINTF("Setting interrupt  at hours %d and minutes %d\n",hours,minutes);
 	if(hours)
 		RTC_write_register(PCF2123_REG_HR_ALARM, bin2bcd(hours)); //set alarm hours
 	RTC_write_register(PCF2123_REG_MN_ALARM, bin2bcd(minutes)); //set alarm minutes

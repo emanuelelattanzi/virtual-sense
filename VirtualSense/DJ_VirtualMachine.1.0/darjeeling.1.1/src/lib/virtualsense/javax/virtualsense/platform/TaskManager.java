@@ -48,21 +48,21 @@ public class TaskManager {
 	
     protected static void loadTask(short executionContextID){
         // create task using a native method and push reference on the stack
-    	System.out.print("----- Load a new app!!!!  id ");System.out.println(executionContextID);
+    	//---System.out.print("----- Load a new app!!!!  id ");System.out.println(executionContextID);
         addTask(new Task(executionContextID));    
         Thread.yield(); // needed to allow deferred infusion initialization
     }
     
     
     protected static void startTask(short executionContextID){
-    	System.out.println("----- Starting a task ");
+    	//---System.out.println("----- Starting a task ");
     	Task toStart = getTask(executionContextID);
     	if(toStart != null)
     		toStart.startExecution();        
     }
     
     protected static void stopTask(short executionContextID){
-    	System.out.println("----- Stopping a task ");
+    	//---System.out.println("----- Stopping a task ");
     	Task toStop = getTask(executionContextID);
     	if(toStop != null)
     		toStop.stopExecution();        
@@ -85,7 +85,7 @@ public class TaskManager {
     		msg.running = toSendInfo.running;
     		Thread.sleep(1500);
     		network.send(msg);
-    		System.out.println("----- Send info mesg done");
+    		//---System.out.println("----- Send info mesg done");
     	}else {
     		//Task.sendGlobalInfo();
     		

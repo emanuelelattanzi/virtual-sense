@@ -45,6 +45,10 @@ public class Sink
         }
     	myNetwork.setSink();
     	
+    	Leds.setLed(Leds.LED0, false);
+    	Leds.setLed(Leds.LED1, false);
+    	Leds.setLed(Leds.LED2, false);
+    	
     	while(true){
     		System.out.println("Wait for packets...");
         	Packet p = myNetwork.receive();
@@ -64,6 +68,17 @@ public class Sink
         		System.out.println(m.route);
         		System.out.print("   >value: ");
         		System.out.println(m.value);
+        		
+        		if(m.value == 0){
+        	    	Leds.setLed(Leds.LED0, false);
+        	    	Leds.setLed(Leds.LED1, false);
+        	    	Leds.setLed(Leds.LED2, false);
+        		}else{
+        	    	Leds.setLed(Leds.LED0, true);
+        	    	Leds.setLed(Leds.LED1, true);
+        	    	Leds.setLed(Leds.LED2, true);
+        		}
+        		
         	}else {
         		System.out.println("UNKNOWN");
         	}

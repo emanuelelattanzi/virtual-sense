@@ -41,7 +41,7 @@
 //public static native short getBoardValue();
 void javax_virtualsense_sensors_Light_short_getValue()
 {
-        const short LIGHTCHANNEL = 1;
+        const short LIGHTCHANNEL = 0;
         const short REF_2_5 = 2;
 
         // Enable light sensor

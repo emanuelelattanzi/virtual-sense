@@ -90,7 +90,7 @@
 #define PACKETBUF_CONF_ATTRS_INLINE 1
 
 #ifndef RF_CHANNEL
-#define RF_CHANNEL              0x19
+#define RF_CHANNEL              0x0B
 #endif /* RF_CHANNEL */
 
 #define CONTIKIMAC_CONF_BROADCAST_RATE_LIMIT 0

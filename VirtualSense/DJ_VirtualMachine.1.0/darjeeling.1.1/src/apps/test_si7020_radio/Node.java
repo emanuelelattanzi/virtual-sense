@@ -1,5 +1,5 @@
 /*
- *	RadioTest.java
+ *	Node.java
  * 
  *	Copyright (c) 2011 DiSBeF, University of Urbino.
  * 
@@ -20,9 +20,10 @@
  */
 
 /**
- * Simple Radio Test Application application.
+ * Simple Radio example for measure temperature, pressure and humidity.
+ * All nodes send its samples to the sink (ID = 1) that writes data on serial port.
  * 
- * @author Emanuele Lattanzi
+ * @author Matteo Dromedari
  *
  */
 
@@ -47,12 +48,6 @@ public class Node extends Thread
 	private static final short SYNK_ID = 1;
 	private static final boolean LOW_POWER = true;
 	
-	public static byte SI7020_ADDRESS = (byte)0x80;
-	public static byte SI7020_READ_TEMP_NOHOLD = (byte)0xF3;
-	public static byte SI7020_READ_HUMID_NOHOLD = (byte)0xF5;
-	public static byte SI7020_READ_USER_REG_1 = (byte)0xE7;
-	public static byte SI7020_WRITE_USER_REG_1 = (byte)0xE6;
-	public static byte SI7020_RESET = (byte)0xFE;
 	
 	private Network network;
 	
@@ -73,11 +68,12 @@ public class Node extends Thread
         	//System.out.println("Port 2 set");
         }
         Node node = new Node(myNetwork);
+        SI7020 si7020 = new SI7020();
         
         // Sensor init
         I2C.enable();
    	 	Thread.sleep(1000);
-   	 	System.out.println("_NodeID_Temp(mC)_Pressure(hPa)_Humidity(%mRH)");
+   	 	System.out.println("_NodeID_Temp(cC)_Pressure(hPa)_Humidity(%cRH)");
    	 	short temp = (short)0;
    	 	short pres = (short)0;
    	 	short hum = (short)0;
@@ -98,8 +94,8 @@ public class Node extends Thread
     		Message msg = new Message(nodeId, 
     								  i++);
     		msg.pres = Pressure.getValue();
-        	msg.temp = readTempSI7020();
-        	msg.hum = readHumSI7020();
+        	msg.temp = si7020.readTemp();
+        	msg.hum = si7020.readHum();
     		
     		if(nodeId != SYNK_ID)
     			myNetwork.sendTo(msg, SYNK_ID);
@@ -129,71 +125,6 @@ public class Node extends Thread
         	if(!LOW_POWER)
         		Leds.setLed(Leds.LED0, true);        		
     	}
-    }
-    
-	public static short readTempSI7020() {
-    	
-    	short temp = (short)0;
-    	 
-    	 I2C.start();
-    	 I2C.write(SI7020_ADDRESS);
-    	 I2C.write(SI7020_READ_TEMP_NOHOLD);
-    	 
-    	 do {
-    		 System.out.print("");
-    		 I2C.start();
-    	 }
-    	 while(!I2C.write((byte)(SI7020_ADDRESS | 1)));
-
-    	 byte b1 = I2C.read(true);
-    	 //System.out.print("b1: ");
-    	 //System.out.print(b1);
-    	 System.out.print("");
-    	 byte b2 = I2C.read(false);
-    	 //System.out.print(" b2: ");
-    	 //System.out.println(b2);
-    	 
-    	 I2C.stop();
-    	 
-    	 int read = ((int)b1 << 8) & 0x0000FF00;
-    	 read |= (int)b2;
-    	 
-    	 temp = (short)(((read * 21965)/ 81920)-4685);
-    		
-    	 return temp;
-    }
-	
-	
-	public static short readHumSI7020() {
-    	
-    	short hum = (short)0;
-    	 
-    	 I2C.start();
-    	 I2C.write(SI7020_ADDRESS);
-    	 I2C.write(SI7020_READ_HUMID_NOHOLD);
-    	 
-    	 do {
-    		 System.out.print("");
-    		 I2C.start();
-    	 }
-    	 while(!I2C.write((byte)(SI7020_ADDRESS | 1)));
-
-    	 byte b1 = I2C.read(true);
-    	 //System.out.print("b1: ");
-    	 //System.out.print(b1);
-    	 System.out.print("");
-    	 byte b2 = I2C.read(false);
-    	 //System.out.print(" b2: ");
-    	 //System.out.println(b2);
-     	 
-    	 I2C.stop();
-
-    	 int read = ((int)b1 << 8) & 0x0000FF00;
-    	 read |= ((int)b2 & 0x0000FC);
-    	 
-    	 hum = (short)(((read * 12500)/ 65536)-600);
-    		
-    	 return hum;
     }
     
 }

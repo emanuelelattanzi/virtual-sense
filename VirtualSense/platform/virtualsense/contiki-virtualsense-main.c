@@ -75,6 +75,16 @@ static struct timer mgt_timer;
 extern int msp430_dco_required;
 struct process * processes;
 
+#define DEBUG 0
+#if DEBUG
+#include <stdio.h>
+#define PRINTF(...) printf(__VA_ARGS__)
+#define PRINTDEBUG(...) printf(__VA_ARGS__)
+#else
+#define PRINTF(...)
+#define PRINTDEBUG(...)
+#endif
+
 
 
 void init_platform(void);
@@ -96,7 +106,7 @@ set_rime_addr(void)
   if(node_id == 0) {
     for(i = 0; i < sizeof(rimeaddr_t); ++i) {
       addr.u8[i] = EUI_48[7 - i];
-      printf("Setting addr %x-", EUI_48[7-i]);
+      PRINTF("Setting addr %x-", EUI_48[7-i]);
       //node_id = addr.u8[0] + addr.u8[1]>>8;
     }
   } else {
@@ -114,11 +124,11 @@ set_rime_addr(void)
    }
 #endif
   rimeaddr_set_node_addr(&addr);
-  printf("Rime address ");
+  PRINTF("Rime address ");
   for(i = 0; i < sizeof(addr.u8) - 1; i++) {
-    printf("%d.", addr.u8[i]);
+    PRINTF("%d.", addr.u8[i]);
   }
-  printf("%d\n", addr.u8[i]);
+  PRINTF("%d\n", addr.u8[i]);
 }
 /*---------------------------------------------------------------------------*/
 #if 0
@@ -126,12 +136,12 @@ static void
 print_processes(struct process * const processes[])
 {
   /*  const struct process * const * p = processes;*/
-  //printf("Starting");
+  //PRINTF("Starting");
   while(*processes != NULL) {
-    printf(" '%s'", (*processes)->name);
+    PRINTF(" '%s'", (*processes)->name);
     processes++;
   }
-  printf("\n");
+  PRINTF("\n");
 }
 #endif
 /*--------------------------------------------------------------------------*/
@@ -162,30 +172,30 @@ main(int argc, char **argv)
 	/*
 	 * Hardware initialization done!
 	 */
-	printf("\nHardware init done...");
+	PRINTF("\nHardware init done...");
 
-	//printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	//printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	//printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	//printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	//printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	//printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	//printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	//printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
-	printf(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	//PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	//PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	//PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	//PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	//PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	//PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	//PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	//PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
+	PRINTF(" ");	// <<<<< For Linker bug!!!!!!!!!!
 
 
-	printf("\nVirtualSense - Moka Coffe Run\n\n");
+	PRINTF("\nVirtualSense - Moka Coffe Run\n\n");
 
 	/* Restore node id if such has been stored in external mem */
 	node_id_restore();
 	if(node_id > 0) {
-		printf("node id found on EEPROM\n");
+		PRINTF("node id found on EEPROM\n");
 	}else {
-		printf("node id not found on EEPROM\n");
+		PRINTF("node id not found on EEPROM\n");
 		#ifdef PLATFORM_HAS_EUI48
 		node_id = (EUI_48[0] << 8) + EUI_48[1];
 		#endif
@@ -229,7 +239,7 @@ main(int argc, char **argv)
 	uart_set_input(serial_line_input_byte);
 	serial_line_init();
 
-	printf(CONTIKI_VERSION_STRING "up. ");
+	PRINTF(CONTIKI_VERSION_STRING "up. ");
 
 	//#ifdef PLATFORM_HAS_RF
 	//NETSTACK_RADIO.init();
@@ -244,7 +254,7 @@ main(int argc, char **argv)
 
 		memset(longaddr, 0, sizeof(longaddr));
 		rimeaddr_copy((rimeaddr_t *)&longaddr, &rimeaddr_node_addr);
-		/*printf("MAC %02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x ",
+		/*PRINTF("MAC %02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x ",
               	  longaddr[0], longaddr[1], longaddr[2], longaddr[3],
               	  longaddr[4], longaddr[5], longaddr[6], longaddr[7]);*/
 
@@ -265,7 +275,7 @@ main(int argc, char **argv)
 
 	  /* Setup nullmac-like MAC for 802.15.4 */
 	/*   sicslowpan_init(sicslowmac_init(&cc2520_driver)); */
-	/*   printf(" %s channel %u\n", sicslowmac_driver.name, RF_CHANNEL); */
+	/*   PRINTF(" %s channel %u\n", sicslowmac_driver.name, RF_CHANNEL); */
 
 	  /* Setup X-MAC for 802.15.4 */
 	  queuebuf_init();
@@ -273,7 +283,7 @@ main(int argc, char **argv)
 	  NETSTACK_MAC.init();
 	  NETSTACK_NETWORK.init();
 
-	  printf("%s %s, channel check rate %lu Hz, radio channel %u\n",
+	  PRINTF("%s %s, channel check rate %lu Hz, radio channel %u\n",
 			 NETSTACK_MAC.name, NETSTACK_RDC.name,
 			 CLOCK_SECOND / (NETSTACK_RDC.channel_check_interval() == 0 ? 1:
 							 NETSTACK_RDC.channel_check_interval()),
@@ -281,16 +291,16 @@ main(int argc, char **argv)
 
 	  process_start(&tcpip_process, NULL);
 
-	  printf("Tentative link-local IPv6 address ");
+	  PRINTF("Tentative link-local IPv6 address ");
 	  {
 		uip_ds6_addr_t *lladdr;
 		int i;
 		lladdr = uip_ds6_get_link_local(-1);
 		for(i = 0; i < 7; ++i) {
-		  printf("%02x%02x:", lladdr->ipaddr.u8[i * 2],
+		  PRINTF("%02x%02x:", lladdr->ipaddr.u8[i * 2],
 				 lladdr->ipaddr.u8[i * 2 + 1]);
 		}
-		printf("%02x%02x\n", lladdr->ipaddr.u8[14], lladdr->ipaddr.u8[15]);
+		PRINTF("%02x%02x\n", lladdr->ipaddr.u8[14], lladdr->ipaddr.u8[15]);
 	  }
 
 	  if(!UIP_CONF_IPV6_RPL) {
@@ -299,12 +309,12 @@ main(int argc, char **argv)
 		uip_ip6addr(&ipaddr, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
 		uip_ds6_set_addr_iid(&ipaddr, &uip_lladdr);
 		uip_ds6_addr_add(&ipaddr, 0, ADDR_TENTATIVE);
-		printf("Tentative global IPv6 address ");
+		PRINTF("Tentative global IPv6 address ");
 		for(i = 0; i < 7; ++i) {
-		  printf("%02x%02x:",
+		  PRINTF("%02x%02x:",
 				 ipaddr.u8[i * 2], ipaddr.u8[i * 2 + 1]);
 		}
-		printf("%02x%02x\n",
+		PRINTF("%02x%02x\n",
 			   ipaddr.u8[7 * 2], ipaddr.u8[7 * 2 + 1]);
 	  }
 
@@ -315,7 +325,7 @@ main(int argc, char **argv)
 	  NETSTACK_NETWORK.init();
 
 
-		/*printf("%s %s, channel check rate %lu Hz, channel %u\n",
+		/*PRINTF("%s %s, channel check rate %lu Hz, channel %u\n",
 				 NETSTACK_MAC.name, NETSTACK_RDC.name,
 				 CLOCK_SECOND / (NETSTACK_RDC.channel_check_interval() == 0? 1:
 							 NETSTACK_RDC.channel_check_interval()),
@@ -326,15 +336,15 @@ main(int argc, char **argv)
 	#endif
 
 	#ifdef PLATFORM_HAS_EUI48
-    printf("MAC %02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x\n",
+    PRINTF("MAC %02x:%02x:%02x:%02x:%02x:%02x:%02x:%02x\n",
 	EUI_48[7], EUI_48[6], EUI_48[5], EUI_48[4],
 	EUI_48[3], EUI_48[2], EUI_48[1], EUI_48[0]);
 	#endif
 
 	if(node_id > 0) {
-		printf("Node id  %u.\n", node_id);
+		PRINTF("Node id  %u.\n", node_id);
 	}else {
-		printf("Node id is not set.\n");
+		PRINTF("Node id is not set.\n");
 	}
 
 
@@ -371,15 +381,15 @@ main(int argc, char **argv)
 			/*if(!is_locked_RF())
 				shutdown_RF();*/
 			/*else
-			  	  printf("RF Locked\n");*/
+			  	  PRINTF("RF Locked\n");*/
 			/*if(!is_locked_SPI())
 			  shutdown_SPI();*/
 			/* else
-			  printf("SPI Locked\n");*/
+			  PRINTF("SPI Locked\n");*/
 			/* if(!is_locked_MAC())
 			  shutdown_MAC();*/
 			/* else
-			  printf("MAC Locked\n");*/
+			  PRINTF("MAC Locked\n");*/
 
 			PMMCTL0_H = PMMPW_H; 		// PMM Password
 		    SVSMHCTL &= ~(SVMHE+SVSHE); // Disable High side SVS
@@ -405,28 +415,28 @@ main(int argc, char **argv)
 
 		    /* We get the current processing time for interrupts that was
 		     done during the LPM and store it for next time around.  */
-		    /* printf("WAKE: %ld\n", clock_time());
+		    /* PRINTF("WAKE: %ld\n", clock_time());
 
 			processes = PROCESS_LIST();
 
 			while(processes != NULL) {
-		      printf(" '%s'", processes->name);
+		      PRINTF(" '%s'", processes->name);
 		      processes = processes->next;
 		    }
-		    printf("\n");
+		    PRINTF("\n");
 		    */
 
-		    /*printf(" -- Pending %d ", etimer_pending());
-		  	  printf(" -- Next Ex %d\n", etimer_next_expiration_time());
+		    /*PRINTF(" -- Pending %d ", etimer_pending());
+		  	  PRINTF(" -- Next Ex %d\n", etimer_next_expiration_time());
 			 */
 
 			#ifdef PLATFORM_HAS_RTC_PCF2123
-		    //printf(" TIME %u:%u:%u\n", RTC_get_hours(),RTC_get_minutes(),RTC_get_seconds()) ;
+		    //PRINTF(" TIME %u:%u:%u\n", RTC_get_hours(),RTC_get_minutes(),RTC_get_seconds()) ;
 			#endif
 
 		    // test reading temperature from barometer
-		    //printf("temp %d\n",read_temperature_barometer_MPL115A2());
-		    //printf("pressure %d\n",read_pressure_barometer_MPL115A2());
+		    //PRINTF("temp %d\n",read_temperature_barometer_MPL115A2());
+		    //PRINTF("pressure %d\n",read_pressure_barometer_MPL115A2());
 		    watchdog_start();
 		}
 	}
