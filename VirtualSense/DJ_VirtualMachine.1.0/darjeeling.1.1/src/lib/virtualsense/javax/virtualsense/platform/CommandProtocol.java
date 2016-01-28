@@ -37,17 +37,19 @@ import javax.virtualsense.VirtualSense;
 public class CommandProtocol extends Protocol{
 		
 	short lastCommandId = 0;
-	short nodeId = VirtualSense.getNodeId();
-	boolean iamSink = nodeId == 1?true:false; //SINK shold be always 1 ID
 	
 	public CommandProtocol(){
 		super();
 	}
 	
-	protected void packetHandler(Packet received){
-		 if(received instanceof CommandMsg){// command message received 
-			 System.out.println(" Commands msg received ");
-			 if(!iamSink){
+	protected void packetHandler(Packet received) {
+		if(sink){
+			// SINK
+				
+		}else {
+			// NODES
+			if(received instanceof CommandMsg) {// command message received 
+				 System.out.println(" Commands msg received ");
 				 CommandMsg msg = (CommandMsg) received;				
 				 if(msg.id != lastCommandId){ // this command has not been received
 					 lastCommandId = msg.id;
@@ -58,20 +60,23 @@ public class CommandProtocol extends Protocol{
 					 super.sendBroadcast(msg);	
 					 System.out.println(" forward fresh command ");
 				 }		
-			 }
-		 }else if (received instanceof InfoMsg){ // info message to be forwarded to the sink	
-			 if(!iamSink){
+			} 
+			else if (received instanceof InfoMsg) { // info message to be forwarded to the sink	
+				
 				 InfoMsg msg = (InfoMsg)received;
 				 VirtualSense.printTime();
 				 System.out.println(" Forward InfoMsg to the sink");
 				 Thread.sleep(500);
 				 super.send(msg);
-				 Leds.setLed(Leds.LED1,false);	
-			 }/*else {
-				 VirtualSense.printTime();
-				 super.notifyReceiver();
-			 }*/
-		 }
-	    	
-	 }
+			}
+		}
+	}
+	
+	protected void sinkInit() {
+		
+	}
+	
+	public String toString() {
+    	return "CommandProtocol";
+    }
 }

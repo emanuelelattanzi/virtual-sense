@@ -40,4 +40,5 @@ public class Short
 		return value;
 	}
 	
+	//public static native String toString(short s);
 }

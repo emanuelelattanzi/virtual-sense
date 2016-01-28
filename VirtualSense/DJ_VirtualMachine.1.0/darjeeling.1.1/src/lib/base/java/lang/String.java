@@ -29,7 +29,7 @@ public class String
 	
 	public native boolean equals(String str); 
 	public native String[] split(char c); 
-	
+	public native String substring(int beginIndex, int endIndex);
 	public native char charAt(int index);
 	
 	public native byte[] getBytes();

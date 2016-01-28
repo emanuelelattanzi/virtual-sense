@@ -20,7 +20,6 @@
 
 	<!-- build all applications -->
 	<target name="apps" depends="tools, libs">
-		<application dir="burn_nodeid" target="hexdump" />
 		<application dir="example_blink" target="hexdump" />
 		<application dir="example_digitalio" target="hexdump" />
 		<application dir="example_i2c" target="hexdump" />
@@ -40,8 +39,7 @@
 		<library dir="virtualsense" />
 		<distro distro="virtualsense" infusions="base, darjeeling, virtualsense"
 			nativeinfusions="base, darjeeling, virtualsense" run="virtualsense" 
-			apps="burn_nodeid,
-			example_blink,
+			apps="example_blink,
 			example_digitalio,
 			example_i2c,
 			example_network,
@@ -87,16 +85,6 @@
 		<library dir="darjeeling" />
 		<library dir="virtualsense" />
 		<distro distro="linux" target="run" /> 
-	</target>
-	
-	<target name="run-virtualsense-burn-nodeid" depends="tools, apps">
-		<library dir="base" />
-		<library dir="darjeeling" />
-		<library dir="virtualsense" />
-		<distro distro="virtualsense" infusions="base, darjeeling, virtualsense"
-				nativeinfusions="base, darjeeling, virtualsense" run="virtualsense" 
-				apps="burn_nodeid" 
-				running="burn_nodeid" target="run" />
 	</target>
 	
 	<target name="run-virtualsense-example-blink" depends="tools, apps">

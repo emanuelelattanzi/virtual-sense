@@ -141,6 +141,7 @@ void java_lang_String_boolean_equals_java_lang_String()
 
 	dj_exec_stackPushShort(strcmp(str1,str2)==0);
 }
+// boolean java.lang.String.split(char)
 void java_lang_String_java_lang_String___split_char(){
 	dj_ref_array * ref;
 
@@ -199,6 +200,41 @@ void java_lang_String_java_lang_String___split_char(){
 	}
 	dj_exec_stackPushRef(VOIDP_TO_REF(ref));
 
+}
+
+// java.lang.String java.lang.String.substring(int beginIndex, int endIndex)
+void java_lang_String_java_lang_String_substring_int_int()
+{
+	char * ret, * ptr;
+	char *str = REF_TO_VOIDP(dj_exec_stackPopRef());
+	int len = strlen(str);
+	int endIndex = dj_exec_stackPopInt();
+	int beginIndex = dj_exec_stackPopInt();
+
+	if(endIndex > len || beginIndex > endIndex || beginIndex < 0) {
+		dj_exec_createAndThrow(BASE_CDEF_java_lang_IndexOutOfBoundsException);
+		return;
+	}
+
+	// allocate the new string
+	int sublen = endIndex-beginIndex;
+	ptr = ret = (char *)dj_mem_alloc(sublen+1, dj_vm_getSysLibClassRuntimeId(dj_exec_getVM(), BASE_CDEF_java_lang_String));
+
+	if (ptr==NULL)
+	{
+		dj_exec_createAndThrow(BASE_CDEF_java_lang_OutOfMemoryError);
+		return;
+	}
+
+	// add the parameter string
+	memcpy(ptr, &str[beginIndex], sublen);
+	ptr[sublen] = '\0';
+	ptr = sublen;
+
+	// add the trailing zero
+	*ptr = 0;
+
+	dj_exec_stackPushRef(VOIDP_TO_REF(ret));
 }
 
 // byte[] java.lang.String.getBytes(java.lang.String)

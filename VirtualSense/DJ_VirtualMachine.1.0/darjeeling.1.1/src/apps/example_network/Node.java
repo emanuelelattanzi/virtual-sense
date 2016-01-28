@@ -41,8 +41,7 @@ public class Node extends Thread
 	/**
 	 * WARNING: Set different node id for each programed node!
 	 */
-	private static final short NODE_ID = 1;
-	private static final short ID_TO_SEND = 2;
+	private static final short ID_TO_SEND = -23631;
 	
 	private Network network;
 	
@@ -52,9 +51,7 @@ public class Node extends Thread
 	}
 	
 	
-    public static void motemain(){
-    	
-    	VirtualSense.setNodeId(NODE_ID);
+    public static void motemain() {
     	
     	short i = 0;
     	short nodeId = VirtualSense.getNodeId();

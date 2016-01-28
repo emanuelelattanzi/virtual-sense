@@ -32,24 +32,17 @@ import java.lang.Runtime;
 
 public class Blink
 {
-	static int  temp = 0;
     public static void motemain()
     {
-        
     	boolean state=true;
-        
-        /* slow down the system clock 
-         * (normally it is configured at 10 ms)
-         * to reduce power consumption 
-         * leaves the CPU in the LPM3 state */        
-        //PowerManager.setSystemClockMillis(500);
+    	Thread.sleep(500); 
+    	
         while(true)
         {
             for (short i=0; i<3; i++)
-            {
-               
-                       Leds.setLed(i,state);
-                       Thread.sleep(1000);       
+            { 
+            	Leds.setLed(i,state);
+            	Thread.sleep(1000);       
             }
             state=!state;
             System.out.print("Free mem: ");
@@ -57,6 +50,5 @@ public class Blink
             VirtualSense.printTime();
             System.out.println(""); 
         }
-       
     }
 }

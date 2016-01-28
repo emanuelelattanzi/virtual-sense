@@ -92,17 +92,16 @@ void javax_virtualsense_radio_Radio_void__init()
 void javax_virtualsense_radio_Radio_void__broadcast_byte__()
 {
 
+	rimeaddr_t addr;
 
-        rimeaddr_t addr;
 
+	dj_int_array * byteArray = REF_TO_VOIDP(dj_exec_stackPopRef());
 
-        dj_int_array * byteArray = REF_TO_VOIDP(dj_exec_stackPopRef());
+	// check null
+	if (byteArray==nullref)
+			dj_exec_createAndThrow(BASE_CDEF_java_lang_NullPointerException);
 
-        // check null
-        if (byteArray==nullref)
-                dj_exec_createAndThrow(BASE_CDEF_java_lang_NullPointerException);
-
-        // copy bytes to the rime buffer
+	// copy bytes to the rime buffer
     packetbuf_copyfrom(byteArray->data.bytes, byteArray->array.length);
     //printf("Setting data length to %d\n",byteArray->array.length);
     packetbuf_set_datalen(byteArray->array.length);
@@ -118,20 +117,21 @@ void javax_virtualsense_radio_Radio_void__broadcast_byte__()
 void javax_virtualsense_radio_Radio_boolean__send_short_byte__()
 {
 
-        rimeaddr_t addr;
+	rimeaddr_t addr;
 
 
-        dj_int_array * byteArray = REF_TO_VOIDP(dj_exec_stackPopRef());
-        int16_t id = dj_exec_stackPopShort();
-        addr.u8[0] = id & 0xff;
-        addr.u8[1] = id >> 8;
+	dj_int_array * byteArray = REF_TO_VOIDP(dj_exec_stackPopRef());
+	int16_t id = dj_exec_stackPopShort();
+	addr.u8[0] = id & 0xff;
+	addr.u8[1] = id >> 8;
+	printf("adr0: %x", addr.u8[0]);
+	printf("adr1: %x", addr.u8[1]);
 
+	// check null
+	if (byteArray==nullref)
+			dj_exec_createAndThrow(BASE_CDEF_java_lang_NullPointerException);
 
-        // check null
-        if (byteArray==nullref)
-                dj_exec_createAndThrow(BASE_CDEF_java_lang_NullPointerException);
-
-        // copy bytes to the rime buffer
+	// copy bytes to the rime buffer
     packetbuf_copyfrom(byteArray->data.bytes, byteArray->array.length);
     packetbuf_set_datalen(byteArray->array.length);
 

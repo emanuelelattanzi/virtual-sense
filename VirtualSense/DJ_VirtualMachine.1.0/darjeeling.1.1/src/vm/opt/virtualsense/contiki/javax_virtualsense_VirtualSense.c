@@ -31,38 +31,45 @@
 #include "common/execution/execution.h"
 #include "common/heap/heap.h"
 #include "common/djtimer.h"
-#include "ieee-addr.h"
-//#include "node-id.h"
+#include "net/rime/rimeaddr.h"
+#include "../../../../node_id.h"
 
 
 
 // int javax.virtualsense.VirtualSense.getNodeId()
 void javax_virtualsense_VirtualSense_short_getNodeId()
 {
-	 // push result on the stack
-	 uint16_t node_id = 0;
-	 ieee_addr_cpy_to((uint8_t *)(&node_id), 2);
-	 dj_exec_stackPushShort(node_id);
+	// Push node id on the stack
+	dj_exec_stackPushShort(virtualsense_node_id);
 }
 
-// void javax.virtualsense.VirtualSense.setNodeId(short nodeId)
-void javax_virtualsense_VirtualSense_void_setNodeId_short()
+// void javax.virtualsense.VirtualSense.setNodeId(int nodeId)
+/*void javax_virtualsense_VirtualSense_void_setNodeId_short()
 {
-	// pop node id from the stack and write it on the eeprom
+	// Pop node id from the stack and write it on the flash
 	uint16_t node_id = dj_exec_stackPopShort();
-	//node_id_burn(node_id);
-}
+	node_id_burn(node_id);
+	NODEID_write(dj_exec_stackPopInt());
+}*/
 
 void javax_virtualsense_VirtualSense_void_printTime(){
 #ifdef PLATFORM_HAS_RTC_PCF2123
 
-
 	uint8_t sec = RTC_get_seconds();
-
 	uint8_t min = RTC_get_minutes();
 	uint8_t hou = RTC_get_hours();
 
-		  printf(" TIME %u:%u:%u", hou,min,sec);
+	printf(" TIME %u:%u:%u", hou,min,sec);
 #endif
+
+/*void javax_virtualsense_VirtualSense_java_lang_String_getTime(){
+#ifdef PLATFORM_HAS_RTC_PCF2123
+
+	uint8_t sec = RTC_get_seconds();
+	uint8_t min = RTC_get_minutes();
+	uint8_t hou = RTC_get_hours();
+
+	printf("%u:%u:%u", hou,min,sec);
+#endif*/
 
 }

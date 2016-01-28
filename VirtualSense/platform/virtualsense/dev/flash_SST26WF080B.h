@@ -26,6 +26,9 @@
  *
  */
 
+#ifndef __FLASH_SST26WF080B_H__
+#define __FLASH_SST26WF080B_H__
+
 
 #define	FLASH_PAGE_SIZE						256
 #define FLASH_SECTOR_SIZE 					4096
@@ -50,6 +53,7 @@
 #define FLASH_GLOBAL_BLOCK_PROTECT_UNLOCK	0x98
 
 
+uint8_t sector_buffer[FLASH_SECTOR_SIZE];
 
 void init_SST26WF080B();
 void chip_erase_SST26WF080B();
@@ -58,3 +62,6 @@ void write_sector_SST26WF080B(uint32_t base_sector_adr, uint8_t *data);
 void write_page_SST26WF080B(uint32_t base_page_adr, uint8_t *data);
 void read_sector_SST26WF080B(uint32_t base_adr, uint8_t *read_sector);
 void read_sequential_SST26WF080B(uint32_t base_adr, uint8_t *read_bytes, uint32_t byte_to_read);
+
+
+#endif /* __FLASH_SST26WF080B_H__ */

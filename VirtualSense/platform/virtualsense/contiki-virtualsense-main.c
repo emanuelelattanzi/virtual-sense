@@ -70,11 +70,9 @@
 #include "dev/eeprom_24AA512.h"
 #include "dev/SI7020.h"
 #include "dev/BH1620FVC.h"
-//#include "i2c.h"
 #include "dev/adc.h"
-#include "dev/storage.c"
-
-//#include "../../DJ_VirtualMachine.1.0/darjeeling.1.1/src/vm/distro/virtualsense/DJ.h"
+#include "dev/storage.h"
+#include "../../DJ_VirtualMachine.1.0/darjeeling.1.1/node_id.h"
 
 #include <stdint.h>
 #include <string.h>
@@ -96,6 +94,10 @@
 #else
 #define PUTS(s)
 #endif
+
+#define BASE_1   0x0208
+#define BASE_2   0x020C
+#define BASE_3			0x400D3014
 /*---------------------------------------------------------------------------*/
 static void
 fade(unsigned char l)
@@ -119,19 +121,39 @@ fade(unsigned char l)
 static void
 set_rime_addr()
 {
-  ieee_addr_cpy_to(&rimeaddr_node_addr.u8[0], RIMEADDR_SIZE);
-
-#if STARTUP_CONF_VERBOSE
-  {
-    int i;
-    printf("Rime configured with address ");
-    for(i = 0; i < RIMEADDR_SIZE - 1; i++) {
-      printf("%02x:", rimeaddr_node_addr.u8[i]);
-    }
-    printf("%02x\n", rimeaddr_node_addr.u8[i]);
-  }
+#if VIRTUALSENSE_NODE_ID
+	 rimeaddr_node_addr.u8[0] = VIRTUALSENSE_NODE_ID & 0xFF;
+	 rimeaddr_node_addr.u8[1] = VIRTUALSENSE_NODE_ID >> 8;
+#else
+	 if(RIMEADDR_SIZE == 2) {
+		 uint8_t ext_addr[8];
+		 ieee_addr_cpy_to(ext_addr, 8);
+		 rimeaddr_node_addr.u8[0] = ext_addr[7];
+		 rimeaddr_node_addr.u8[1] = ext_addr[6];
+	 }
+	 else
+		 ieee_addr_cpy_to(&rimeaddr_node_addr.u8[0], RIMEADDR_SIZE);
 #endif
 
+	 virtualsense_node_id = ((uint16_t)rimeaddr_node_addr.u8[1] << 8) & 0xFF00;
+	 virtualsense_node_id |= (uint16_t)rimeaddr_node_addr.u8[0];
+
+#if VIRTUALSENSE_NODE_ID
+	 printf("Node id: %d\n", virtualsense_node_id);
+#else
+	 printf("Node id set with ieee adr: %d\n", virtualsense_node_id);
+#endif
+
+#if STARTUP_CONF_VERBOSE
+{
+	 int i;
+	 printf("Rime configured with address ");
+	 for(i = RIMEADDR_SIZE - 1; i > 0; i--) {
+		 printf("%02x:", rimeaddr_node_addr.u8[i]);
+	 }
+	 printf("%02x\n", rimeaddr_node_addr.u8[i]);
+}
+#endif
 }
 /*---------------------------------------------------------------------------*/
 /**
@@ -196,13 +218,12 @@ main(void)
 
   udma_init();
 
-  //init_BH1620FVC(); NO ligth sensor in this release
-
   init_SI7020();
-  init_24AA512();
+  //init_24AA512();
   //test_24AA512();
 
   init_SST26WF080B();
+  //chip_erase_SST26WF080B();
   //write_mem(1);
 
   RTC_init();

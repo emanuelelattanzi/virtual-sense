@@ -29,7 +29,7 @@ import javax.virtualsense.network.UnicastPacket;
  * @author Lattanzi
  */
 public class InfoMsg extends UnicastPacket{
-	public short nodeID;     
+	public int nodeID;     
     public short executionContextID; 
     public boolean loaded;
     public boolean running;

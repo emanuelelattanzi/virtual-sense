@@ -46,8 +46,6 @@
 #endif
 
 
-uint8_t sector_buffer[FLASH_SECTOR_SIZE];
-
 
 void save_var(uint16_t app_id, uint16_t var_id, uint32_t var) {
 

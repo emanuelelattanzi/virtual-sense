@@ -57,7 +57,7 @@ public abstract class Protocol
     		if(bestPath >= 0){
     			System.out.print("send unicast to ");
     			System.out.println(bestPath);
-    			Radio.send((short)bestPath, p.toByteArray());     
+    			Radio.send(bestPath, p.toByteArray());     
     		}else{
     			System.out.println("send broadcast");
     			Radio.broadcast(p.toByteArray());

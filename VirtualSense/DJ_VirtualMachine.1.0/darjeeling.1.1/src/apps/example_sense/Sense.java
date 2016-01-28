@@ -36,8 +36,8 @@ public class Sense
     	Display dis = Display.getInstance();
     	
         while(true)
-        {
-        	AccVector accVector = acc.getValue();
+        { 
+        	/*AccVector accVector = acc.getValue();
         	if(accVector != null) {
         		
         		System.out.println("Acceleration vector:");
@@ -51,7 +51,7 @@ public class Sense
         	Thread.sleep(500);
         	VirtualSense.printTime();
         	
-        	/*System.out.print("ADC0: ");
+        	System.out.print("ADC0: ");
         	System.out.print(ADC.readIntRef(ADC.CH0));
         	System.out.println("mV");
         	Thread.sleep(1000);
@@ -64,19 +64,35 @@ public class Sense
         	System.out.print("ADC2: ");
         	System.out.print(ADC.readIntRef(ADC.CH2));
         	System.out.println("mV");
-        	Thread.sleep(1000);
+        	Thread.sleep(1000);*/
+        	short temp = 0;
+        	short hum = 0;
         	
+        	hum = Humidity.getValue();
         	System.out.print("Ext. humidity: ");
-        	System.out.print(Humidity.getValue());
+        	System.out.print(hum);
         	System.out.println(" %");
-        	Thread.sleep(1000);
+        	//Thread.sleep(1000);
+        	//Thread.sleep(1000);
         	        	
+        	temp = Temperature.getValue();
         	System.out.print("Ext. temp: ");
-        	System.out.print(Temperature.getValue());
+        	System.out.print(temp);
         	System.out.println(" mC");
-        	Thread.sleep(1000);
-        	        	
-        	System.out.print("Board temp: ");
+        	
+        	
+        	String strTemp = Integer.toString(temp);
+    		String dec = strTemp.substring(strTemp.length() - 2, strTemp.length());
+    		String deg = strTemp.substring(0, strTemp.length() - 2);
+    		strTemp = String.concat(deg, ".", dec, "C");	
+
+    		dis.clear();
+    		dis.print(String.concat(strTemp, " ", Integer.toString((int)hum), "%"));
+    		Thread.sleep(36000);
+    		Thread.sleep(36000);
+        	
+        	//dis.print(temp);
+        	/*System.out.print("Board temp: ");
         	System.out.print(Temperature.getBoardValue());
         	System.out.println("mC");
         	Thread.sleep(1000);

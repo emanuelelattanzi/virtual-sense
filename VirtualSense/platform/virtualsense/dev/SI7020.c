@@ -115,18 +115,20 @@ uint16_t read_temp_SI7020(void){
 	while(I2CMasterErr() != I2C_MASTER_ERR_NONE);
 
 	// Read converted temperature value from SI7020
-	uint16_t read = ((uint16_t)I2CMasterDataGet()) << 8;
+	uint32_t read = (I2CMasterDataGet() << 8) & 0x0000FF00;
+	PRINTF("SI7020: (b1 << 8) & 0x0000FF00: %d ", read);
 
 	I2CMasterControl(I2C_MASTER_CMD_BURST_RECEIVE_FINISH);
 	while(I2CMasterBusy());
 	if(I2CMasterErr() == I2C_MASTER_ERR_NONE){
-		read += (uint16_t)I2CMasterDataGet();
+		read |= I2CMasterDataGet();
+		PRINTF("SI7020: ((b1<<8)&0x0000FF00) | b2: %d\n", read);
 	}else{
 		PRINTF("SI7020: error on read temp (read last byte)\n");
 	}
 
 	// Conversion returned value in celsius degrees
-	temp = (uint16_t)((((uint32_t)read * 21965)/ 81920)-4685);	// °C = ((175,72*16bit_value)/65536)-46,85
+	temp = (uint16_t)(((read * 21965)/ 81920)-4685);	// °C = ((175,72*16bit_value)/65536)-46,85
 
 	// Power down sensor
 	SI7020_POWER_DOWN();
@@ -149,6 +151,7 @@ uint16_t read_humid_SI7020(void){
 	// Write command for start humidity conversion
 	I2CMasterDataPut(SI7020_READ_HUMID_NOHOLD);
 	I2CMasterControl(I2C_MASTER_CMD_SINGLE_SEND);
+	clock_delay(50000);
 	while(I2CMasterBusy());
 	if(I2CMasterErr() != I2C_MASTER_ERR_NONE){
 		PRINTF("SI7020: error on write command (humid read)\n");
@@ -165,12 +168,14 @@ uint16_t read_humid_SI7020(void){
 	while(I2CMasterErr() != I2C_MASTER_ERR_NONE);
 
 	// Read converted humidity value from SI7020
-	uint16_t read = ((uint16_t)I2CMasterDataGet()) << 8;
+	uint32_t read = (I2CMasterDataGet() << 8) & 0x0000FF00;
+	PRINTF("SI7020: (b1 << 8) & 0x0000FF00: %d ", read);
 
 	I2CMasterControl(I2C_MASTER_CMD_BURST_RECEIVE_FINISH);
 	while(I2CMasterBusy());
 	if(I2CMasterErr() == I2C_MASTER_ERR_NONE){
-		read += (uint16_t)I2CMasterDataGet();
+		read |= (I2CMasterDataGet() & 0x000000FC);
+		PRINTF("SI7020: ((b1<<8)&0x0000FF00) | (b2 &0x000000FC): %d\n", read);
 	}else{
 		PRINTF("SI7020: error on read hum (read last byte)\n");
 	}

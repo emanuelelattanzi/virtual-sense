@@ -26,20 +26,20 @@
  *
  */
 
-#include "flash_SST26WF080B.h"
 
 #ifndef __STORAGE_H__
 #define __STORAGE_H__
 
+#include "flash_SST26WF080B.h"
 
-#define STORAGE_SIZE 						524288
+#define STORAGE_SIZE 						FLASH_SIZE / 2		// 524288 Half flash is reserved for OS
 #define STORAGE_SECTOR						128
 
-#define STORAGE_BASE_ADR 					0
+#define STORAGE_BASE_ADR 					FLASH_BASE_ADR		// Start from byte 0
 #define STORAGE_MAX_ADR 					STORAGE_SIZE - 1
 
 #define STORAGE_ENTRY_SIZE 					6					// | app_id (1byte) | var_id (1byte) | var (4byte) |
-																//     0xFF - free
+																//    0xFF -> free
 
 #define STORAGE_SECTOR_HEADER_SIZE			4
 #define STORAGE_SECTOR_ENTRY_COUNT			682
