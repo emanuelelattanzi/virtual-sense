@@ -194,11 +194,11 @@ typedef uint32_t rtimer_clock_t;
 #endif /* NETSTACK_CONF_NETWORK */
 
 #ifndef NETSTACK_CONF_MAC
-#define NETSTACK_CONF_MAC     csma_driver
+#define NETSTACK_CONF_MAC     nullmac_driver
 #endif
 
 #ifndef NETSTACK_CONF_RDC
-#define NETSTACK_CONF_RDC     contikimac_driver
+#define NETSTACK_CONF_RDC     nullrc_driver
 #endif
 
 /* Configure NullRDC for when it's selected */
@@ -215,10 +215,10 @@ typedef uint32_t rtimer_clock_t;
 #endif
 
 #ifndef NETSTACK_CONF_FRAMER
-#define NETSTACK_CONF_FRAMER  framer_802154
+#define NETSTACK_CONF_FRAMER  framer_nullmac
 #endif
 
-#define NETSTACK_CONF_RADIO   cc2538_rf_driver
+#define NETSTACK_CONF_RADIO   cc2538_rf_interferer_driver
 /** @} */
 /*---------------------------------------------------------------------------*/
 /**
