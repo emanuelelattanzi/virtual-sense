@@ -22,6 +22,8 @@
  * Those values are not meant to be modified by the user
  * @{
  */
+
+#define INTERFERER 1
 #define CLOCK_CONF_SECOND 128
 
 /* Compiler configurations */
@@ -193,13 +195,26 @@ typedef uint32_t rtimer_clock_t;
 #endif /* UIP_CONF_IPV6 */
 #endif /* NETSTACK_CONF_NETWORK */
 
+
+#if INTERFERER
 #ifndef NETSTACK_CONF_MAC
 #define NETSTACK_CONF_MAC     nullmac_driver
 #endif
 
 #ifndef NETSTACK_CONF_RDC
-#define NETSTACK_CONF_RDC     nullrc_driver
+#define NETSTACK_CONF_RDC     nullrdc_driver
 #endif
+#else
+
+#ifndef NETSTACK_CONF_MAC
+#define NETSTACK_CONF_MAC     csma_driver
+#endif
+
+#ifndef NETSTACK_CONF_RDC
+#define NETSTACK_CONF_RDC     contikimac_driver
+#endif
+#endif /* INTERFERER
+
 
 /* Configure NullRDC for when it's selected */
 #define NULLRDC_802154_AUTOACK                  1
@@ -214,11 +229,21 @@ typedef uint32_t rtimer_clock_t;
 #define NETSTACK_CONF_RDC_CHANNEL_CHECK_RATE    8
 #endif
 
+#if INTERFERER
 #ifndef NETSTACK_CONF_FRAMER
 #define NETSTACK_CONF_FRAMER  framer_nullmac
 #endif
 
 #define NETSTACK_CONF_RADIO   cc2538_rf_interferer_driver
+#else
+
+#ifndef NETSTACK_CONF_FRAMER
+#define NETSTACK_CONF_FRAMER  framer_802154
+#endif
+
+#define NETSTACK_CONF_RADIO   cc2538_rf_driver
+
+#endif
 /** @} */
 /*---------------------------------------------------------------------------*/
 /**
@@ -284,7 +309,7 @@ typedef uint32_t rtimer_clock_t;
 
 
 //#ifndef CC2538_RF_CONF_TX_POWER
-#define CC2538_RF_CONF_TX_POWER             0xFF
+#define CC2538_RF_CONF_TX_POWER             0x77
 //#endif /* CC2538_RF_CONF_TX_POWER*/
 
 

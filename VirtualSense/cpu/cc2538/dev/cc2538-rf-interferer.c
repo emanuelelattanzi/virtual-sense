@@ -48,6 +48,7 @@
 #include "net/netstack.h"
 #include "sys/energest.h"
 #include "dev/cc2538-rf.h"
+#include "dev/gpio.h"
 #include "dev/rfcore.h"
 #include "dev/sys-ctrl.h"
 #include "dev/udma.h"
@@ -55,6 +56,35 @@
 
 #include <string.h>
 /*---------------------------------------------------------------------------*/
+
+/* INTERFERER CONFIGURATION PARAMTERS
+ *
+ *
+ *  ON_TIME   is the time during witch the transmitter stay on
+ *  OFF_TIME  is the time during witch the transmitter stay off
+ *
+ *  unmodulated MDMTEST1 0x18
+ *  modulated   MDMTEST1 0x08
+ *
+ *  FSCAL1           0x00 2 W
+ *  AGCCTRL1         0x15 2 W
+ *  TXFILTCFG        0x09 2 W
+ *  MDMTEST1         0x08 2 W
+ *  FSCAL1           0x01 2 W
+ *  FRMCTRL0         0x43 2 W
+ *  FRMCTRL1         0x00 2 W
+ *  FRMFILT0         0x0d 2 W
+ *  GPIO_C_DIR       0x0c 2 W
+ *  GPIO_C_DATA      0x00 2 W
+ *  GPIO_D_DIR       0x04 2 W
+ *  GPIO_D_DATA      0x00 2 W
+ *  MDMTEST1         0x08 2 W
+ *
+ *  */
+
+#define UNMODULATED 1
+
+
 #define CHECKSUM_LEN 2
 
 /* uDMA channel control persistent flags */
@@ -130,6 +160,9 @@ static int on(void);
 static int off(void);
 /*---------------------------------------------------------------------------*/
 PROCESS(cc2538_rf_interferer_process, "cc2538 RF interferer driver");
+
+static struct etimer et;
+
 /*---------------------------------------------------------------------------*/
 uint8_t
 cc2538_rf_interferer_channel_get()
@@ -143,7 +176,7 @@ cc2538_rf_interferer_channel_get()
 int8_t
 cc2538_rf_interferer_channel_set(uint8_t channel)
 {
-  PRINTF("RF: Set Channel\n");
+  PRINTF("RF-interferer: Set Channel\n");
 
   if((channel < CC2538_RF_CHANNEL_MIN) || (channel > CC2538_RF_CHANNEL_MAX)) {
     return -1;
@@ -161,7 +194,7 @@ cc2538_rf_interferer_channel_set(uint8_t channel)
 uint8_t
 cc2538_rf_interferer_power_set(uint8_t new_power)
 {
-  PRINTF("RF: Set Power\n");
+  PRINTF("RF-interferer: Set Power\n");
 
   REG(RFCORE_XREG_TXPOWER) = new_power;
 
@@ -177,7 +210,7 @@ channel_clear(void)
 {
   int cca = 1;
 
-  PRINTF("RF: CCA\n");
+  PRINTF("RF-interferer: CCA\n");
 
   return cca;
 }
@@ -185,11 +218,11 @@ channel_clear(void)
 static int
 on(void)
 {
-  PRINTF("RF: On\n");
+  PRINTF("RF-interferer: On\n");
 
   //if(!(rf_flags & RX_ACTIVE)) {
   //  CC2538_RF_CSP_ISFLUSHRX();
-    CC2538_RF_CSP_ISRXON();
+    CC2538_RF_CSP_ISTXON();
 
    // rf_flags |= RX_ACTIVE;
   //}
@@ -201,108 +234,59 @@ on(void)
 static int
 off(void)
 {
-  PRINTF("RF: Off\n");
+  PRINTF("RF-interferer: Off\n");
 
-  /* Wait for ongoing TX to complete (e.g. this could be an outgoing ACK) */
-  //while(REG(RFCORE_XREG_FSMSTAT1) & RFCORE_XREG_FSMSTAT1_TX_ACTIVE);
+      CC2538_RF_CSP_ISRFOFF();
 
-  //CC2538_RF_CSP_ISFLUSHRX();
-
-  /* Don't turn off if we are off as this will trigger a Strobe Error */
-  if(REG(RFCORE_XREG_RXENABLE) != 0) {
-    CC2538_RF_CSP_ISRFOFF();
-  }
-
-  //rf_flags &= ~RX_ACTIVE;
-
-  //ENERGEST_OFF(ENERGEST_TYPE_LISTEN);
-  return 1;
+    return 1;
 }
 /*---------------------------------------------------------------------------*/
 static int
 init(void)
 {
-  PRINTF("RF: Init\n");
+  PRINTF("RF-interferer: Init\n");
 
-  if(rf_flags & RF_ON) {
-    return 0;
-  }
 
   /* Enable clock for the RF Core while Running, in Sleep and Deep Sleep */
   REG(SYS_CTRL_RCGCRFC) = 1;
   REG(SYS_CTRL_SCGCRFC) = 1;
   REG(SYS_CTRL_DCGCRFC) = 1;
 
-  REG(RFCORE_XREG_CCACTRL0) = CC2538_RF_CCA_THRES_USER_GUIDE;
+  //REG(RFCORE_XREG_CCACTRL0) = CC2538_RF_CCA_THRES_USER_GUIDE;
 
   /*
    * Changes from default values
    * See User Guide, section "Register Settings Update"
    */
+  REG(RFCORE_XREG_FSCAL1)    = 0x00;
+  REG(RFCORE_XREG_AGCCTRL1)  = 0x15;     /** AGC target value */
   REG(RFCORE_XREG_TXFILTCFG) = 0x09;    /** TX anti-aliasing filter bandwidth */
-  REG(RFCORE_XREG_AGCCTRL1) = 0x15;     /** AGC target value */
-  REG(ANA_REGS_IVCTRL) = 0x0B;          /** Bias currents */
+  REG(RFCORE_XREG_FSCAL1)    = 0x01;
+  REG(RFCORE_XREG_FRMCTRL0)  = 0x43;
+  REG(RFCORE_XREG_FRMCTRL1)  = 0x00;
+  REG(RFCORE_XREG_FRMFILT0)  = 0x0d;
 
-  /*
-   * Defaults:
-   * Auto CRC; Append RSSI, CRC-OK and Corr. Val.; CRC calculation;
-   * RX and TX modes with FIFOs
-   */
-  REG(RFCORE_XREG_FRMCTRL0) = RFCORE_XREG_FRMCTRL0_AUTOCRC;
+  /*GPIO_WRITE_PIN(GPIO_C_BASE, GPIO_DIR, 0x0c);
+  GPIO_WRITE_PIN(GPIO_C_BASE, GPIO_DATA, 0x00);
 
-#if CC2538_RF_AUTOACK
-  REG(RFCORE_XREG_FRMCTRL0) |= RFCORE_XREG_FRMCTRL0_AUTOACK;
-#endif
+  GPIO_WRITE_PIN(GPIO_D_BASE, GPIO_DIR, 0x04);
+  GPIO_WRITE_PIN(GPIO_D_BASE, GPIO_DATA, 0x00);*/
 
-  /* If we are a sniffer, turn off frame filtering */
-#if CC2538_RF_CONF_SNIFFER
-  REG(RFCORE_XREG_FRMFILT0) &= ~RFCORE_XREG_FRMFILT0_FRAME_FILTER_EN;
-#endif
 
-  /* Disable source address matching and autopend */
-  REG(RFCORE_XREG_SRCMATCH) = 0;
-
-  /* MAX FIFOP threshold */
-  REG(RFCORE_XREG_FIFOPCTRL) = CC2538_RF_MAX_PACKET_LEN;
 
   cc2538_rf_power_set(CC2538_RF_TX_POWER);
   cc2538_rf_channel_set(CC2538_RF_CHANNEL);
 
-  /* Acknowledge RF interrupts, FIFOP only */
-  REG(RFCORE_XREG_RFIRQM0) |= RFCORE_XREG_RFIRQM0_FIFOP;
-  nvic_interrupt_enable(NVIC_INT_RF_RXTX);
+#if UNMODULATED
+  REG(RFCORE_XREG_MDMTEST1)  = 0x18;
+#else
+  REG(RFCORE_XREG_MDMTEST1)  = 0x08;
+#endif
 
-  /* Acknowledge all RF Error interrupts */
-  REG(RFCORE_XREG_RFERRM) = RFCORE_XREG_RFERRM_RFERRM;
-  nvic_interrupt_enable(NVIC_INT_RF_ERR);
 
-  if(CC2538_RF_CONF_TX_USE_DMA) {
-    /* Disable peripheral triggers for the channel */
-    udma_channel_mask_set(CC2538_RF_CONF_TX_DMA_CHAN);
 
-    /*
-     * Set the channel's DST. SRC can not be set yet since it will change for
-     * each transfer
-     */
-    udma_set_channel_dst(CC2538_RF_CONF_TX_DMA_CHAN, RFCORE_SFR_RFDATA);
-  }
-
-  if(CC2538_RF_CONF_RX_USE_DMA) {
-    /* Disable peripheral triggers for the channel */
-    udma_channel_mask_set(CC2538_RF_CONF_RX_DMA_CHAN);
-
-    /*
-     * Set the channel's SRC. DST can not be set yet since it will change for
-     * each transfer
-     */
-    udma_set_channel_src(CC2538_RF_CONF_RX_DMA_CHAN, RFCORE_SFR_RFDATA);
-  }
-
+  PRINTF("RF-interferer: Init Done starting main loop process\n");
   process_start(&cc2538_rf_interferer_process, NULL);
-
-  rf_flags |= RF_ON;
-
-  ENERGEST_ON(ENERGEST_TYPE_LISTEN);
 
   return 1;
 }
@@ -312,7 +296,7 @@ prepare(const void *payload, unsigned short payload_len)
 {
   uint8_t i;
 
-  PRINTF("RF: Prepare 0x%02x bytes\n", payload_len + CHECKSUM_LEN);
+  PRINTF("RF-interferer: Prepare 0x%02x bytes\n", payload_len + CHECKSUM_LEN);
 
   /*
    * When we transmit in very quick bursts, make sure previous transmission
@@ -326,7 +310,7 @@ prepare(const void *payload, unsigned short payload_len)
 
   CC2538_RF_CSP_ISFLUSHTX();
 
-  PRINTF("RF: data = ");
+  PRINTF("RF-interferer: data = ");
   /* Send the phy length byte first */
   REG(RFCORE_SFR_RFDATA) = payload_len + CHECKSUM_LEN;
 
@@ -390,7 +374,7 @@ read(void *buf, unsigned short bufsize)
 static int
 receiving_packet(void)
 {
-  PRINTF("RF: Receiving\n");
+  PRINTF("RF-interferer: Receiving\n");
 
 
 }
@@ -398,7 +382,7 @@ receiving_packet(void)
 static int
 pending_packet(void)
 {
-  PRINTF("RF: Pending\n");
+  PRINTF("RF-interferer: Pending\n");
 
   return (0);
 }
@@ -430,13 +414,16 @@ PROCESS_THREAD(cc2538_rf_interferer_process, ev, data)
 {
   int len;
   PROCESS_BEGIN();
+  etimer_set(&et, CLOCK_SECOND);
 
   while(1) {
-    PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
-
-
-      on();
+	  /*PRINTF("RF-interferer main loop\n");*/
+	  on();
+	  etimer_set(&et, CLOCK_SECOND/64);
+	  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
       off();
+      etimer_set(&et, CLOCK_SECOND/16);
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
   }
 

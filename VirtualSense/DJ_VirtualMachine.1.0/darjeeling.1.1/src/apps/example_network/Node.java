@@ -41,7 +41,7 @@ public class Node extends Thread
 	/**
 	 * WARNING: Set different node id for each programed node!
 	 */
-	private static final short ID_TO_SEND = -23631;
+	private static final short ID_TO_SEND = 3;
 	
 	private Network network;
 	
@@ -73,12 +73,12 @@ public class Node extends Thread
     								  i++,
     								  Temperature.getValue());
     		
-    		myNetwork.sendTo(msg, ID_TO_SEND);
+    		/*myNetwork.sendTo(msg, ID_TO_SEND);
     		VirtualSense.printTime();
-            System.out.print(" SENDER: message sent to ");System.out.println(ID_TO_SEND);   		
+            System.out.print(" SENDER: message sent to ");System.out.println(ID_TO_SEND);   	*/	
     		Leds.setLed(Leds.LED0, false);
     		
-    		Thread.sleep(5000);
+    		Thread.sleep(1000);
     	}          
     }
     
