@@ -23,7 +23,7 @@
  * @{
  */
 
-#define INTERFERER 0
+
 #define CLOCK_CONF_SECOND 128
 
 /* Compiler configurations */
@@ -196,15 +196,7 @@ typedef uint32_t rtimer_clock_t;
 #endif /* NETSTACK_CONF_NETWORK */
 
 
-#if INTERFERER
-#ifndef NETSTACK_CONF_MAC
-#define NETSTACK_CONF_MAC     nullmac_driver
-#endif
 
-#ifndef NETSTACK_CONF_RDC
-#define NETSTACK_CONF_RDC     nullrdc_driver
-#endif
-#else
 
 #ifndef NETSTACK_CONF_MAC
 #define NETSTACK_CONF_MAC     csma_driver
@@ -213,29 +205,19 @@ typedef uint32_t rtimer_clock_t;
 #ifndef NETSTACK_CONF_RDC
 #define NETSTACK_CONF_RDC     contikimac_driver
 #endif
-#endif /* INTERFERER
-
 
 /* Configure NullRDC for when it's selected */
 #define NULLRDC_802154_AUTOACK                  1
 #define NULLRDC_802154_AUTOACK_HW               1
 
 /* Configure ContikiMAC for when it's selected */
-#define CONTIKIMAC_CONF_WITH_CONTIKIMAC_HEADER  0
-#define CONTIKIMAC_CONF_WITH_PHASE_OPTIMIZATION 0
-#define WITH_FAST_SLEEP                         1
+#define CONTIKIMAC_CONF_WITH_CONTIKIMAC_HEADER  1
+#define CONTIKIMAC_CONF_WITH_PHASE_OPTIMIZATION 1
+#define WITH_FAST_SLEEP                         0
 
 #ifndef NETSTACK_CONF_RDC_CHANNEL_CHECK_RATE
 #define NETSTACK_CONF_RDC_CHANNEL_CHECK_RATE    8
 #endif
-
-#if INTERFERER
-#ifndef NETSTACK_CONF_FRAMER
-#define NETSTACK_CONF_FRAMER  framer_nullmac
-#endif
-
-#define NETSTACK_CONF_RADIO   cc2538_rf_interferer_driver
-#else
 
 #ifndef NETSTACK_CONF_FRAMER
 #define NETSTACK_CONF_FRAMER  framer_802154
@@ -243,7 +225,7 @@ typedef uint32_t rtimer_clock_t;
 
 #define NETSTACK_CONF_RADIO   cc2538_rf_driver
 
-#endif
+
 /** @} */
 /*---------------------------------------------------------------------------*/
 /**
@@ -308,10 +290,10 @@ typedef uint32_t rtimer_clock_t;
 #endif /* CC2538_RF_CONF_CHANNEL */
 
 
-//#ifndef CC2538_RF_CONF_TX_POWER
-#define CC2538_RF_CONF_TX_POWER             0x77
-//#endif /* CC2538_RF_CONF_TX_POWER*/
 
+#ifndef CC2538_RF_CONF_TX_POWER
+#define CC2538_RF_CONF_TX_POWER             0x77
+#endif /* CC2538_RF_CONF_TX_POWER*/
 
 #ifndef CC2538_RF_CONF_AUTOACK
 #define CC2538_RF_CONF_AUTOACK               1 /**< RF H/W generates ACKs */

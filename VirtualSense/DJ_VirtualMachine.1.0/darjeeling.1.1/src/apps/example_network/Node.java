@@ -73,9 +73,9 @@ public class Node extends Thread
     								  i++,
     								  Temperature.getValue());
     		
-    		myNetwork.sendTo(msg, ID_TO_SEND);
+    		/*myNetwork.sendTo(msg, ID_TO_SEND);
     		VirtualSense.printTime();
-            System.out.print(" SENDER: message sent to ");System.out.println(ID_TO_SEND);   	
+            System.out.print(" SENDER: message sent to ");System.out.println(ID_TO_SEND); */  	
     		Leds.setLed(Leds.LED0, false);
     		
     		Thread.sleep(1000);
@@ -92,7 +92,7 @@ public class Node extends Thread
     		VirtualSense.printTime();
     		System.out.print(" RECEIVER: received message from ");
     		System.out.print(msg.getSender());System.out.print(" its temperature: ");
-    		System.out.println(msg.value);
+    		System.out.print(msg.value);System.out.print(" counter a20: ");System.out.println(msg.a20);
     		Thread.sleep(200);
     		Leds.setLed(Leds.LED1, false);        		
     	}

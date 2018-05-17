@@ -42,7 +42,7 @@
  *         Adam Dunkels <adam@sics.se>
  */
 
-#define DEBUG 1
+#define DEBUG 0
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -179,6 +179,7 @@ rime_output(struct channel *c)
   RIMESTATS_ADD(tx);
   if(chameleon_create(c)) {
     packetbuf_compact();
+
     NETSTACK_MAC.send(packet_sent, c);
     return 1;
   }

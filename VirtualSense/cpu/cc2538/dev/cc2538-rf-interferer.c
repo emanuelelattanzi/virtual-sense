@@ -422,7 +422,7 @@ PROCESS_THREAD(cc2538_rf_interferer_process, ev, data)
 	  etimer_set(&et, CLOCK_SECOND/16);
 	  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
       off();
-      etimer_set(&et, CLOCK_SECOND/128);
+      etimer_set(&et, CLOCK_SECOND/64);
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
   }
