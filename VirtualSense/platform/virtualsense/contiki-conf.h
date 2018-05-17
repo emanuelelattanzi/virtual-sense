@@ -23,7 +23,7 @@
  * @{
  */
 
-#define INTERFERER 1
+#define INTERFERER 0
 #define CLOCK_CONF_SECOND 128
 
 /* Compiler configurations */
@@ -265,7 +265,7 @@ typedef uint32_t rtimer_clock_t;
 #endif
 
 #ifndef LPM_CONF_STATS
-#define LPM_CONF_STATS        0 /**< Set to 1 to enable LPM-related stats */
+#define LPM_CONF_STATS        1 /**< Set to 1 to enable LPM-related stats */
 #endif
 /** @} */
 /*---------------------------------------------------------------------------*/

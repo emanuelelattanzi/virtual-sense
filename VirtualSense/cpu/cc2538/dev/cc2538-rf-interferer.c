@@ -82,7 +82,7 @@
  *
  *  */
 
-#define UNMODULATED 1
+#define UNMODULATED 0
 
 
 #define CHECKSUM_LEN 2
@@ -417,12 +417,12 @@ PROCESS_THREAD(cc2538_rf_interferer_process, ev, data)
   etimer_set(&et, CLOCK_SECOND);
 
   while(1) {
-	  /*PRINTF("RF-interferer main loop\n");*/
+	  /*PRINTF("RF-interferer main loop\n");*/ /* a clock cycle corresponds to  7.81 ms */
 	  on();
-	  etimer_set(&et, CLOCK_SECOND/64);
+	  etimer_set(&et, CLOCK_SECOND/16);
 	  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
       off();
-      etimer_set(&et, CLOCK_SECOND/16);
+      etimer_set(&et, CLOCK_SECOND/128);
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
   }

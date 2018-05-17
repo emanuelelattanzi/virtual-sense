@@ -240,7 +240,7 @@ static volatile unsigned char radio_is_on = 0;
 #define DEBUG 1
 #if DEBUG
 #include <stdio.h>
-#define PRINTF(...) printf(__VA_ARGS__)
+#define PRINTF(...) printf(__VA_ARGS__ )
 #define PRINTDEBUG(...) printf(__VA_ARGS__)
 #else
 #define PRINTF(...)
