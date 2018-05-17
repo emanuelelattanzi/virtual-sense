@@ -65,6 +65,7 @@
 #include "ieee-addr.h"
 #include "lpm.h"
 
+
 #include "dev/pcf2123_spi.h"
 #include "dev/flash_SST26WF080B.h"
 #include "dev/eeprom_24AA512.h"
@@ -80,6 +81,7 @@
 
 #include "cpu.h"
 #include "ioc.h"
+//#include "core/lib/print_stats.c"
 
 
 /*---------------------------------------------------------------------------*/
@@ -206,6 +208,8 @@ main(void)
   PUTS(CONTIKI_VERSION_STRING);
   PUTS(BOARD_STRING);
 
+  //print_stats();
+
   PRINTF(" Net: ");
   PRINTF("%s\n", NETSTACK_NETWORK.name);
   PRINTF(" MAC: ");
@@ -229,7 +233,7 @@ main(void)
   RTC_init();
 
   uint8_t min = RTC_get_minutes()+1;
-  RTC_schedule_interrupt_at_minutes(min);
+  //RTC_schedule_interrupt_at_minutes(min);
   printf("Test interrupt at minute: %d\n", min);
 
   process_start(&etimer_process, NULL);

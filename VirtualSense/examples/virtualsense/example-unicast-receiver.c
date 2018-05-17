@@ -1,11 +1,5 @@
-/**
- * \addtogroup rimeabc
- * @{
- */
-
-
 /*
- * Copyright (c) 2004, Swedish Institute of Computer Science.
+ * Copyright (c) 2007, Swedish Institute of Computer Science.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,82 +28,82 @@
  *
  * This file is part of the Contiki operating system.
  *
- * Author: Adam Dunkels <adam@sics.se>
- *
  */
 
 /**
  * \file
- *         Anonymous best-effort local area Broad Cast (abc)
+ *         Best-effort single-hop unicast example
  * \author
  *         Adam Dunkels <adam@sics.se>
  */
 
-#include "contiki-net.h"
+#include "contiki.h"
 #include "net/rime.h"
 
+#include "lib/print-stats.h"
+#include "net/rime/rimestats.h"
 
-#define DEBUG 1
-#if DEBUG
+#include "dev/button-sensor.h"
+
+#include "dev/leds.h"
+
 #include <stdio.h>
-#define PRINTF(...) printf(__VA_ARGS__)
-#else
-#define PRINTF(...)
-#endif
 
-static const struct packetbuf_attrlist attributes[] =
-  { ABC_ATTRIBUTES PACKETBUF_ATTR_LAST };
+int packets = 0;
 
 /*---------------------------------------------------------------------------*/
-void
-abc_open(struct abc_conn *c, uint16_t channelno,
-	  const struct abc_callbacks *callbacks)
-{
-  channel_open(&c->channel, channelno);
-  c->u = callbacks;
-  channel_set_attributes(channelno, attributes);
-}
+PROCESS(example_unicast_process, "Example unicast receiver ");
+AUTOSTART_PROCESSES(&example_unicast_process);
 /*---------------------------------------------------------------------------*/
-void
-abc_close(struct abc_conn *c)
+static void
+recv_uc(struct unicast_conn *c, const rimeaddr_t *from)
 {
-  channel_close(&c->channel);
+  packets++;
+  printf("pakets %d - unicast message received from %d.%d\n",
+	 packets, from->u8[0], from->u8[1]);
+print_stats();
+leds_toggle(LEDS_ORANGE);
 }
+static const struct unicast_callbacks unicast_callbacks = {recv_uc};
+static struct unicast_conn uc;
 /*---------------------------------------------------------------------------*/
-int
-abc_send(struct abc_conn *c)
+PROCESS_THREAD(example_unicast_process, ev, data)
 {
-  PRINTF("%d.%d: abc: abc_send on channel %d\n",
-	 rimeaddr_node_addr.u8[0],rimeaddr_node_addr.u8[1],
-	 c->channel.channelno);
-  return rime_output(&c->channel);
-}
-/*---------------------------------------------------------------------------*/
-void
-abc_input(struct channel *channel)
-{
-  struct abc_conn *c = (struct abc_conn *)channel;
-  PRINTF("%d.%d: abc: abc_input_packet on channel %d\n",
-	 rimeaddr_node_addr.u8[0],rimeaddr_node_addr.u8[1],
-	 channel->channelno);
+  PROCESS_EXITHANDLER(unicast_close(&uc);)
+    
+  PROCESS_BEGIN();
 
-  if(c->u->recv) {
-    c->u->recv(c);
+  unicast_open(&uc, 146, &unicast_callbacks);
+  printf("hello from %d.%d\n",
+	 rimeaddr_node_addr.u8[0], rimeaddr_node_addr.u8[1]);
+
+
+  while(1) {
+    static struct etimer et;
+    rimeaddr_t addr;
+    
+    
+    etimer_set(&et, CLOCK_SECOND); 
+    
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+
+    packetbuf_copyfrom("HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello", 120);
+    addr.u8[0] = 1;
+    addr.u8[1] = 0;    
+   
+    packets++;
+    printf("pakets %d - unicast message sent to %d.%d\n",
+                   packets, addr.u8[0], addr.u8[1]);
+	
+    unicast_send(&uc, &addr);
+    print_stats();
+    
+   
+    leds_toggle(LEDS_YELLOW);    
+
   }
+
+  PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
-void
-abc_sent(struct channel *channel, int status, int num_tx)
-{
-  struct abc_conn *c = (struct abc_conn *)channel;
-  PRINTF("%d.%d: abc: abc_sent on channel %d\n",
-	 rimeaddr_node_addr.u8[0],rimeaddr_node_addr.u8[1],
-	 channel->channelno);
-
-  if(c->u->sent) {
-    c->u->sent(c, status, num_tx);
-  }
-}
-/*---------------------------------------------------------------------------*/
-
-/** @} */

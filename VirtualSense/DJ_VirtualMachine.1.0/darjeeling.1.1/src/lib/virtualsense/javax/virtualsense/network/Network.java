@@ -106,7 +106,7 @@ public class Network {
     	Packet p;
     	do{
     		p = Dispatcher.receive(this.myProtocol);
-    		System.out.print(this.myProtocol.toString());System.out.print(" incoming packet on port: ");System.out.println(p.port);
+    		//System.out.print(this.myProtocol.toString());System.out.print(" incoming packet on port: ");System.out.println(p.port);
     	}
     	while(p.port != myPort);
     		

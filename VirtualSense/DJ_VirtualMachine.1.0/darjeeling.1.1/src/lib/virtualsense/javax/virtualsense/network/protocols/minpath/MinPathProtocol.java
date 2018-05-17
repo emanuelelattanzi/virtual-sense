@@ -49,8 +49,10 @@ public class MinPathProtocol extends Protocol{
 		
 		if(sink){
 			// SINK
+			
 			if(received instanceof InterestMsg){// INTEREST MESSAGE 
 				 System.out.println(" received interest ");
+				 System.out.println(" nothing to do ");
 				 //NOTINGH TO DO; IS A PONG INTEREST
 			 }
 			 if (received instanceof DataMsg){ //DATA	

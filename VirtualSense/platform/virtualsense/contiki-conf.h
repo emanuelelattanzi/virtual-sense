@@ -65,8 +65,13 @@ typedef uint32_t rtimer_clock_t;
  * @{
  */
 #ifndef ENERGEST_CONF_ON
-#define ENERGEST_CONF_ON            0 /**< Energest Module */
+#define ENERGEST_CONF_ON            1 /**< Energest Module */
 #endif
+
+#ifndef RIMESTATS_CONF_ENABLED
+#define RIMESTATS_CONF_ENABLED      1 /**< Energest Module */
+#endif
+
 
 #ifndef STARTUP_CONF_VERBOSE
 #define STARTUP_CONF_VERBOSE        1 /**< Set to 0 to decrease startup verbosity */
@@ -236,11 +241,11 @@ typedef uint32_t rtimer_clock_t;
  * 0 for PM0, 1 for PM1 and 2 for PM2
  */
 #ifndef LPM_CONF_MAX_PM
-#define LPM_CONF_MAX_PM       1
+#define LPM_CONF_MAX_PM       2
 #endif
 
 #ifndef LPM_CONF_STATS
-#define LPM_CONF_STATS        0 /**< Set to 1 to enable LPM-related stats */
+#define LPM_CONF_STATS        1 /**< Set to 1 to enable LPM-related stats */
 #endif
 /** @} */
 /*---------------------------------------------------------------------------*/
@@ -284,7 +289,7 @@ typedef uint32_t rtimer_clock_t;
 
 
 //#ifndef CC2538_RF_CONF_TX_POWER
-#define CC2538_RF_CONF_TX_POWER             0xFF
+#define CC2538_RF_CONF_TX_POWER             0xD5
 //#endif /* CC2538_RF_CONF_TX_POWER*/
 
 

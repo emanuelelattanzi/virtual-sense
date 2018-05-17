@@ -124,8 +124,8 @@ void javax_virtualsense_radio_Radio_boolean__send_short_byte__()
 	int16_t id = dj_exec_stackPopShort();
 	addr.u8[0] = id & 0xff;
 	addr.u8[1] = id >> 8;
-	printf("adr0: %x", addr.u8[0]);
-	printf("adr1: %x", addr.u8[1]);
+	//printf("adr0: %x", addr.u8[0]);
+	//printf("adr1: %x", addr.u8[1]);
 
 	// check null
 	if (byteArray==nullref)

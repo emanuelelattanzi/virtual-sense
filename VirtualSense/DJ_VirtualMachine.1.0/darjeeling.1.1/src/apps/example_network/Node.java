@@ -41,7 +41,7 @@ public class Node extends Thread
 	/**
 	 * WARNING: Set different node id for each programed node!
 	 */
-	private static final short ID_TO_SEND = -23631;
+	private static final short ID_TO_SEND = 12 /*-23632*/;
 	
 	private Network network;
 	
@@ -55,6 +55,7 @@ public class Node extends Thread
     	
     	short i = 0;
     	short nodeId = VirtualSense.getNodeId();
+    	//VirtualSense.setNodeId((short)1);
     	System.out.print("MAIN: node id ");System.out.println(nodeId);
     	System.out.print("MAIN: node id to send ");System.out.println(ID_TO_SEND);
     	
@@ -69,16 +70,20 @@ public class Node extends Thread
         // SENDER BEHAVIOR
         while(true){   
         	Leds.setLed(Leds.LED0, true);
-    		Message msg = new Message(nodeId, 
+    		/*Message msg = new Message(nodeId, 
     								  i++,
     								  Temperature.getValue());
+    		 
     		
     		myNetwork.sendTo(msg, ID_TO_SEND);
     		VirtualSense.printTime();
-            System.out.print(" SENDER: message sent to ");System.out.println(ID_TO_SEND);   		
+    		System.out.print(" C: ");
+    		System.out.println(i);
+            //System.out.print(" SENDER: message sent to ");System.out.println(ID_TO_SEND); */
+            //Thread.sleep(90000);
     		Leds.setLed(Leds.LED0, false);
     		
-    		Thread.sleep(5000);
+    		Thread.sleep(11000);
     	}          
     }
     
@@ -90,10 +95,13 @@ public class Node extends Thread
         	
         	Leds.setLed(Leds.LED1, true);
     		VirtualSense.printTime();
-    		System.out.print(" RECEIVER: received message from ");
-    		System.out.print(msg.getSender());System.out.print(" its temperature: ");
-    		System.out.println(msg.value);
-    		Thread.sleep(200);
+    		/*System.out.print(" REC from ");
+    		System.out.print(msg.getSender());System.out.print(" T: ");
+    		System.out.println(msg.value);*/
+    		System.out.print(" C: ");
+    		System.out.println(msg.counter);
+    		
+    		//Thread.sleep(10);
     		Leds.setLed(Leds.LED1, false);        		
     	}
     }

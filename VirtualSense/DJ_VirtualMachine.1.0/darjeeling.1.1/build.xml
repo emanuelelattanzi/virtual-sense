@@ -23,7 +23,7 @@
 		<application dir="example_blink" target="hexdump" />
 		<application dir="example_digitalio" target="hexdump" />
 		<application dir="example_i2c" target="hexdump" />
-		<application dir="example_network" target="hexdump" />
+		<application dir="example_network" target="hexdump" /> 
 		<application dir="example_protocol_node" target="hexdump" />
 		<application dir="example_protocol_sink" target="hexdump" />
 		<application dir="example_sense" target="hexdump" />

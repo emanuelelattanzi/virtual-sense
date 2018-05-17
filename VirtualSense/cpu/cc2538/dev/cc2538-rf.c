@@ -321,6 +321,8 @@ init(void)
   REG(RFCORE_XREG_FRMFILT0) &= ~RFCORE_XREG_FRMFILT0_FRAME_FILTER_EN;
 #endif
 
+  REG(RFCORE_XREG_FRMFILT0) &= ~RFCORE_XREG_FRMFILT0_FRAME_FILTER_EN;//da rimuovere
+
   /* Disable source address matching and autopend */
   REG(RFCORE_XREG_SRCMATCH) = 0;
 

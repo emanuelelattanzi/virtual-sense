@@ -249,6 +249,7 @@ lpm_enter()
    * know the registered peripherals and RF are off so we can switch to the
    * 16MHz RCOSC. */
   select_16_mhz_rcosc();
+  sleep_enter_time = RTIMER_NOW();
 
   /*
    * Switching the System Clock from the 32MHz XOSC to the 16MHz RC OSC may
@@ -268,12 +269,16 @@ lpm_enter()
     return;
   } else if(duration >= DEEP_SLEEP_PM2_THRESHOLD && max_pm == 2) {
     /* Long sleep duration and PM2 is allowed. Use it */
+	  /* We reach here when the interrupt context that woke us up has returned */
+    LPM_STATS_ADD(2, RTIMER_NOW() - sleep_enter_time);
     REG(SYS_CTRL_PMCTL) = SYS_CTRL_PMCTL_PM2;
   } else {
     /*
      * Anticipated duration too short for PM2 but long enough for PM1 and we
      * are allowed to use PM1
      */
+	  /* We reach here when the interrupt context that woke us up has returned */
+	    LPM_STATS_ADD(1, RTIMER_NOW() - sleep_enter_time);
     REG(SYS_CTRL_PMCTL) = SYS_CTRL_PMCTL_PM1;
   }
 
