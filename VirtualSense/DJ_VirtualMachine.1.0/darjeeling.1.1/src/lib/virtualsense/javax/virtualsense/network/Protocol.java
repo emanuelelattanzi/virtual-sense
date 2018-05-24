@@ -64,6 +64,10 @@ public abstract class Protocol
             
     		}
     	}else if (p instanceof BroadcastPacket){
+    		System.out.println("send broadcast packet");
+    		Radio.broadcast(p.toByteArray());
+    	}else {
+    		System.out.println("send broadcast packet 2");
     		Radio.broadcast(p.toByteArray());
     	}
     }
@@ -78,6 +82,7 @@ public abstract class Protocol
      * @param packet to be sent.
      */
     protected void sendBroadcast(Packet p){
+    	System.out.println("send broadcast packet method");
     	Radio.broadcast(p.toByteArray());
     }
     

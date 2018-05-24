@@ -18,7 +18,10 @@
  *	You should have received a copy of the GNU General Public License
  *	along with Darjeeling.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+//#include "../../../../../../examples/virtualsense/project-conf.h"
 #include "contiki.h"
+
 #include "dev/leds.h"
 #include "dev/digitalio.h"
 // TODO to implement #include "node-id.h"

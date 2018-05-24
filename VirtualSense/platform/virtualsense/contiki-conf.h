@@ -24,6 +24,31 @@
  */
 
 
+#define INTERFERER 0
+#define QUEUEBUF_CONF_NUM 1
+
+
+#if INTERFERER
+#define NETSTACK_CONF_MAC     nullmac_driver
+#define NETSTACK_CONF_RDC     nullrdc_driver
+#define NETSTACK_CONF_FRAMER  framer_nullmac
+#define NETSTACK_CONF_RADIO   cc2538_rf_interferer_driver
+#else
+#define NETSTACK_CONF_MAC     csma_driver
+#define NETSTACK_CONF_RDC     nullrdc_driver //contikimac_driver
+#define NETSTACK_CONF_FRAMER  framer_802154
+#define NETSTACK_CONF_RADIO   cc2538_rf_driver
+#endif /* INTERFERER */
+
+#if INTERFERER
+#define CC2538_RF_CONF_TX_POWER             0xFF
+#else
+#define CC2538_RF_CONF_TX_POWER             0x77
+#endif /* INTERFERER */
+
+
+
+
 #define CLOCK_CONF_SECOND 128
 
 /* Compiler configurations */
@@ -223,8 +248,9 @@ typedef uint32_t rtimer_clock_t;
 #define NETSTACK_CONF_FRAMER  framer_802154
 #endif
 
+#ifndef NETSTACK_CONF_RADIO
 #define NETSTACK_CONF_RADIO   cc2538_rf_driver
-
+#endif
 
 /** @} */
 /*---------------------------------------------------------------------------*/

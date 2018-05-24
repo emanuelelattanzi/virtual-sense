@@ -83,6 +83,7 @@
  *  */
 
 #define UNMODULATED 0
+#define ONTIME RTIMER_ARCH_SECOND/1000
 
 
 #define CHECKSUM_LEN 2
@@ -413,17 +414,25 @@ const struct radio_driver cc2538_rf_interferer_driver = {
 PROCESS_THREAD(cc2538_rf_interferer_process, ev, data)
 {
   int len;
+  rtimer_clock_t t0;
   PROCESS_BEGIN();
   etimer_set(&et, CLOCK_SECOND);
 
   while(1) {
-	  /*PRINTF("RF-interferer main loop\n");*/ /* a clock cycle corresponds to  7.81 ms */
+	  PRINTF("RF-interferer main loop\n"); /* a clock cycle corresponds to  7.81 ms */
+	  	  	  	  	  	  	  	  	  	   /* the transmission time of a 110bytes packet is about 8 ms */
 	  on();
-	  etimer_set(&et, CLOCK_SECOND/16);
-	  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+
+	  t0 = RTIMER_NOW();
+	  while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + ONTIME*4)){}
+
+	  /*etimer_set(&et, CLOCK_SECOND/128*1);
+	  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
       off();
-      etimer_set(&et, CLOCK_SECOND/64);
-      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+      t0 = RTIMER_NOW();
+      	  while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + ONTIME*14)){}
+      /*etimer_set(&et, CLOCK_SECOND/128*1);
+      PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));*/
 
   }
 

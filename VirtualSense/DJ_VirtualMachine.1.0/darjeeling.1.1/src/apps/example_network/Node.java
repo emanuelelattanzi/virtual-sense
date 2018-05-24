@@ -41,9 +41,11 @@ public class Node extends Thread
 	/**
 	 * WARNING: Set different node id for each programed node!
 	 */
-	private static final short ID_TO_SEND = 3;
+	private static final short ID_TO_SEND = 2;
 	
 	private Network network;
+	
+	private short numReceived = 0;
 	
 	
 	public Node(Network network){
@@ -73,12 +75,14 @@ public class Node extends Thread
     								  i++,
     								  Temperature.getValue());
     		
-    		/*myNetwork.sendTo(msg, ID_TO_SEND);
+    		//myNetwork.sendTo(msg, ID_TO_SEND); // UNICAST
+    		
+    		myNetwork.send(msg);                 // BROADCAST
     		VirtualSense.printTime();
-            System.out.print(" SENDER: message sent to ");System.out.println(ID_TO_SEND); */  	
+            System.out.print(" SENDER: message sent to ");System.out.println(ID_TO_SEND); 
     		Leds.setLed(Leds.LED0, false);
     		
-    		Thread.sleep(1000);
+    		Thread.sleep(3000);
     	}          
     }
     
@@ -87,12 +91,14 @@ public class Node extends Thread
         while(true){
         	
         	Message msg = (Message)this.network.receive();
+        	this.numReceived++;
         	
         	Leds.setLed(Leds.LED1, true);
     		VirtualSense.printTime();
     		System.out.print(" RECEIVER: received message from ");
     		System.out.print(msg.getSender());System.out.print(" its temperature: ");
-    		System.out.print(msg.value);System.out.print(" counter a20: ");System.out.println(msg.a20);
+    		System.out.print(msg.value);System.out.print(" counter a10: ");System.out.println(msg.a1);
+    		System.out.print(" rec: ");System.out.println(this.numReceived);
     		Thread.sleep(200);
     		Leds.setLed(Leds.LED1, false);        		
     	}

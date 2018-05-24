@@ -31,7 +31,7 @@
 #define __NODE_ID_H__
 
 
-#define VIRTUALSENSE_NODE_ID			2		// Node id
+#define VIRTUALSENSE_NODE_ID		1		// Node id
 
 
 uint16_t virtualsense_node_id;

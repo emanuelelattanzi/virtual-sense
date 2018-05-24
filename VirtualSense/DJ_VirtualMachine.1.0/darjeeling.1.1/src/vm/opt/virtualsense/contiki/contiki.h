@@ -36,6 +36,7 @@
 #define __CONTIKI_H__
 
 #include "contiki-version.h"
+#include "project-conf.h"
 #include "contiki-conf.h"
 
 #include "sys/process.h"
