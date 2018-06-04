@@ -25,7 +25,7 @@ public class Message extends Packet {
 	public short a19;	
 	public short a20;	// 60 bytes
 	public short a21;	
-	/*public short a22;	
+	public short a22;	
 	public short a23;	
 	public short a24;	
 	public short a25;	// 70 bytes
@@ -40,18 +40,21 @@ public class Message extends Packet {
 	public short a34;	
 	public short a35;	// 90 bytes 
 	public short a36;	
-	public short a37;	
+	/*public short a37;	
 	public short a38;	
 	public short a39;	
 	public short a40;	// 100 bytes
 	public short a41;	
-	public short a42;	
+	/*public short a42;	
 	public short a43;	
 	public short a44;	
 	public short a45;	// 110 bytes
 	public short a46;	
-	/*public short a47;	
-	/*public short a48;	*/
+	public short a47;	
+	public short a48;
+	public short a49;
+	//public short a50;*/
+	//public short a51;
 		
 	
 	
@@ -81,7 +84,7 @@ public class Message extends Packet {
 		this.a19  = 19;
 		this.a20  = counter;
 		this.a21   = 1;
-		/*this.a22   = 2;
+		this.a22   = 2;
 		this.a23   = 3;
 		this.a24   = 4;
 		this.a25   = 5;  // 70 bytes
@@ -96,18 +99,21 @@ public class Message extends Packet {
 		this.a34  = 14;
 		this.a35  = 15;   // 90 bytes
 		this.a36  = 16;
-		this.a37  = 17;
+		/*this.a37  = 17;
 		this.a38  = 18;
 		this.a39  = 19;
 		this.a40  = counter;   // 100 byte
 		this.a41   = 1;
-		this.a42   = 2;
+		/*this.a42   = 2;
 		this.a43   = 3;
 		this.a44   = 4;
 		this.a45   = 5;       // 110 byes
 		this.a46   = 6;
-		/*this.a47   = 7;
-		this.a48   = 8;*/
+		this.a47   = 7;
+		this.a48   = 8;
+		this.a49   = 9;
+		//this.a50   = 10;*/
+		//this.a51   = 11;
 		
 		
 		
